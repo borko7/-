@@ -1,0 +1,2736 @@
+html
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ТОКИО — Сблъсък на Епохи</title>
+  <meta name="description" content="Пълно ръководство за Токио – от неоновите улици на Shinjuku до древните храмове на Asakusa. Храна, транспорт, скрити бижута.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================
+       CSS CUSTOM PROPERTIES
+    ============================*/
+    :root {
+      --bg: #08090f;
+      --bg2: #0a0c18;
+      --card: #0d1117;
+      --cyber-pink: #ff0055;
+      --cyan: #00e5ff;
+      --red: #bc002d;
+      --gold: #e8c97e;
+      --paper: #fbfbfb;
+      --dim: #7a8fa6;
+      --border: rgba(0,229,255,0.13);
+      --glow-pink: 0 0 8px rgba(255,0,85,.7),0 0 20px rgba(255,0,85,.35),0 0 40px rgba(255,0,85,.15);
+      --glow-cyan: 0 0 8px rgba(0,229,255,.7),0 0 20px rgba(0,229,255,.35),0 0 40px rgba(0,229,255,.15);
+      --glow-red: 0 0 8px rgba(188,0,45,.7),0 0 20px rgba(188,0,45,.35);
+    }
+    body.light {
+      --bg: #f0ece4;
+      --bg2: #e8e2d8;
+      --card: #ffffff;
+      --dim: #5a6475;
+      --border: rgba(188,0,45,.15);
+      --paper: #1a1a2e;
+    }
+
+    /* ============================
+       RESET & BASE
+    ============================*/
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg);
+      color:var(--paper);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      overflow-x:hidden;
+      transition:background .4s,color .4s;
+    }
+    a { text-decoration:none; color:inherit; }
+    img { max-width:100%; display:block; }
+    button { cursor:pointer; font-family:inherit; }
+
+    /* ============================
+       SCROLL PROGRESS BAR
+    ============================*/
+    #prog {
+      position:fixed; top:0; left:0; height:3px; width:0%;
+      background:linear-gradient(90deg,var(--cyber-pink),var(--cyan));
+      box-shadow:var(--glow-cyan); z-index:9999;
+      transition:width .08s linear;
+    }
+
+    /* ============================
+       NAVIGATION
+    ============================*/
+    nav {
+      position:fixed; top:3px; left:0; right:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1rem 2rem;
+      background:rgba(8,9,15,.88);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(0,229,255,.08);
+      z-index:1000; transition:padding .3s,background .4s;
+    }
+    body.light nav { background:rgba(240,236,228,.92); border-color:rgba(188,0,45,.1); }
+    nav.scrolled { padding:.65rem 2rem; }
+
+    .logo {
+      font-family:'Orbitron',monospace; font-size:1.35rem; font-weight:900;
+      color:var(--cyan); letter-spacing:4px;
+      text-shadow:var(--glow-cyan); user-select:none;
+    }
+    body.light .logo { color:var(--red); text-shadow:none; }
+
+    .nav-links {
+      display:flex; gap:1.5rem; list-style:none;
+    }
+    .nav-links a {
+      font-family:'Orbitron',monospace; font-size:.6rem; font-weight:700;
+      color:var(--dim); letter-spacing:2px; text-transform:uppercase;
+      position:relative; transition:color .3s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:1px; background:var(--cyan);
+      transition:width .3s;
+    }
+    .nav-links a:hover { color:var(--cyan); }
+    .nav-links a:hover::after { width:100%; }
+    body.light .nav-links a:hover { color:var(--red); }
+    body.light .nav-links a::after { background:var(--red); }
+
+    .nav-right { display:flex; align-items:center; gap:.8rem; }
+
+    #clock {
+      font-family:'Orbitron',monospace; font-size:.7rem;
+      color:var(--cyan); letter-spacing:2px; text-align:right;
+    }
+    #clock .cl { font-size:.5rem; color:var(--dim); display:block; margin-bottom:2px; }
+    body.light #clock { color:var(--red); }
+
+    .icon-btn {
+      width:36px; height:36px; border-radius:50%;
+      border:1px solid var(--cyan); background:none;
+      color:var(--cyan); font-size:1rem;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .3s;
+    }
+    .icon-btn:hover { background:var(--cyan); color:var(--bg); box-shadow:var(--glow-cyan); }
+    body.light .icon-btn { border-color:var(--red); color:var(--red); }
+    body.light .icon-btn:hover { background:var(--red); color:#fff; }
+
+    #menu-btn { display:none; }
+
+    /* mobile nav */
+    @media(max-width:860px){
+      .nav-links {
+        display:none; flex-direction:column; gap:.75rem;
+        position:absolute; top:100%; left:0; right:0;
+        background:rgba(8,9,15,.97); padding:1.5rem 2rem;
+        border-bottom:1px solid var(--border);
+      }
+      .nav-links.open { display:flex; }
+      #menu-btn { display:flex; }
+    }
+
+    /* ============================
+       HERO
+    ============================*/
+    #hero {
+      position:relative; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+    }
+    .hero-bg {
+      position:absolute; inset:0;
+      background:radial-gradient(ellipse at 25% 50%,rgba(255,0,85,.07) 0%,transparent 55%),
+                 radial-gradient(ellipse at 75% 50%,rgba(0,229,255,.07) 0%,transparent 55%),
+                 var(--bg);
+    }
+    .grid-lines {
+      position:absolute; inset:0;
+      background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+      background-size:60px 60px;
+      animation:gridDrift 25s linear infinite;
+    }
+    @keyframes gridDrift { to { background-position:0 60px; } }
+
+    #particles { position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+    .pt {
+      position:absolute; border-radius:50%;
+      animation:ptFloat linear infinite; opacity:0;
+    }
+    @keyframes ptFloat {
+      0%   { opacity:0; transform:translateY(110vh) translateX(0); }
+      8%   { opacity:.9; }
+      92%  { opacity:.9; }
+      100% { opacity:0; transform:translateY(-50px) translateX(var(--dx)); }
+    }
+
+    #sakura { position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden; }
+    .petal {
+      position:absolute; top:-30px; font-size:.9rem; opacity:0;
+      animation:petalFall linear infinite;
+    }
+    @keyframes petalFall {
+      0%   { opacity:0; transform:translateY(0) rotate(0deg); }
+      8%   { opacity:.8; }
+      92%  { opacity:.7; }
+      100% { opacity:0; transform:translateY(110vh) rotate(540deg); }
+    }
+
+    .hero-content {
+      position:relative; z-index:10;
+      text-align:center; padding:1.5rem;
+      opacity:0; transform:translateY(24px);
+      transition:opacity .9s ease,transform .9s ease;
+    }
+    .hero-content.vis { opacity:1; transform:none; }
+
+    .hero-jp {
+      font-family:'Noto Serif JP',serif;
+      font-size:clamp(3rem,10vw,7rem); font-weight:700;
+      color:transparent;
+      -webkit-text-stroke:1px var(--cyan);
+      letter-spacing:12px; display:block;
+      margin-bottom:.3rem; opacity:.35;
+    }
+    .hero-title {
+      font-family:'Orbitron',monospace;
+      font-size:clamp(1.6rem,5.5vw,4.2rem);
+      font-weight:900; line-height:1.1;
+      letter-spacing:4px; margin-bottom:.75rem;
+    }
+    .l1 { color:var(--paper); display:block; }
+    .l2 { color:var(--cyber-pink); text-shadow:var(--glow-pink); display:block; }
+    .hero-sub {
+      font-size:.82rem; color:var(--dim);
+      letter-spacing:4px; text-transform:uppercase;
+      margin-bottom:2.8rem;
+    }
+    .hero-btns { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+
+    /* neon buttons */
+    .nbtn {
+      font-family:'Orbitron',monospace; font-size:.7rem;
+      font-weight:700; letter-spacing:3px; text-transform:uppercase;
+      padding:.85rem 1.8rem;
+      border:1px solid currentColor;
+      background:transparent;
+      display:inline-flex; align-items:center; gap:.5rem;
+      position:relative; overflow:hidden;
+      transition:color .35s; color:var(--cyan);
+    }
+    .nbtn::before {
+      content:''; position:absolute; inset:0;
+      background:currentColor; opacity:0;
+      transition:opacity .35s; z-index:-1;
+    }
+    .nbtn:hover::before { opacity:1; }
+    .nbtn:hover { color:var(--bg); box-shadow:var(--glow-cyan); }
+    .nbtn.pink { color:var(--cyber-pink); }
+    .nbtn.pink:hover { box-shadow:var(--glow-pink); }
+
+    .scroll-ind {
+      position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+      z-index:10; display:flex; flex-direction:column; align-items:center;
+      gap:.4rem; color:var(--dim); font-size:.55rem;
+      font-family:'Orbitron',monospace; letter-spacing:3px;
+    }
+    .scroll-line {
+      width:1px; height:44px;
+      background:linear-gradient(to bottom,var(--cyan),transparent);
+      animation:lineP 2.2s ease-in-out infinite;
+    }
+    @keyframes lineP { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+
+    /* ============================
+       CONTRAST SPLIT
+    ============================*/
+    #contrast {
+      display:flex; height:56vh; min-height:320px; overflow:hidden;
+    }
+    .cside {
+      flex:1; position:relative;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; overflow:hidden;
+      transition:flex .55s cubic-bezier(.4,0,.2,1);
+    }
+    .cside:hover { flex:2.2; }
+    .cside::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(8,9,15,.55); z-index:1;
+      transition:background .4s;
+    }
+    .cside:hover::before { background:rgba(8,9,15,.3); }
+    .cside-cyber {
+      background:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1400&auto=format&fit=crop') center/cover;
+    }
+    .cside-trad {
+      background:url('https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=1400&auto=format&fit=crop') center/cover;
+    }
+    .clabel {
+      position:relative; z-index:2;
+      font-family:'Orbitron',monospace;
+      font-size:clamp(1.3rem,2.8vw,2.4rem);
+      font-weight:900; letter-spacing:5px;
+      text-align:center; line-height:1.3;
+      text-transform:uppercase; pointer-events:none;
+    }
+    .cside-cyber .clabel { color:var(--cyan); text-shadow:var(--glow-cyan); }
+    .cside-trad  .clabel { color:var(--gold); text-shadow:0 0 20px rgba(232,201,126,.5); }
+    .cdiv {
+      position:absolute; top:0; left:50%;
+      width:2px; height:100%;
+      background:linear-gradient(to bottom,transparent,var(--cyan),var(--cyber-pink),transparent);
+      z-index:5; pointer-events:none;
+    }
+
+    /* ============================
+       SECTION SHARED STYLES
+    ============================*/
+    .sep {
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(0,229,255,.3),rgba(255,0,85,.2),transparent);
+    }
+    .sec { padding:5.5rem 2rem; max-width:1360px; margin:0 auto; }
+    .sec-bg { padding:5.5rem 0; }
+    .sec-bg .sec { padding-top:0; padding-bottom:0; }
+
+    .sec-hd { text-align:center; margin-bottom:3.5rem; }
+    .eyebrow {
+      font-family:'Orbitron',monospace; font-size:.58rem;
+      letter-spacing:5px; color:var(--cyan);
+      text-transform:uppercase; display:block;
+      margin-bottom:.8rem;
+    }
+    .sec-title {
+      font-family:'Orbitron',monospace;
+      font-size:clamp(1.8rem,4vw,3.2rem);
+      font-weight:900; line-height:1.12;
+      letter-spacing:3px; margin-bottom:1.2rem;
+    }
+    .sec-desc {
+      font-size:.9rem; color:var(--dim);
+      max-width:580px; margin:0 auto; line-height:1.85;
+    }
+    .divider {
+      width:70px; height:1px; margin:1.4rem auto;
+      background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    }
+
+    /* fade-in on scroll */
+    .fi { opacity:0; transform:translateY(28px); transition:opacity .65s ease,transform .65s ease; }
+    .fi.vis { opacity:1; transform:none; }
+    .fi.d1 { transition-delay:.05s; }
+    .fi.d2 { transition-delay:.12s; }
+    .fi.d3 { transition-delay:.19s; }
+    .fi.d4 { transition-delay:.26s; }
+    .fi.d5 { transition-delay:.33s; }
+    .fi.d6 { transition-delay:.40s; }
+
+    /* ============================
+       CYBER TOKYO
+    ============================*/
+    #cyber {
+      background:radial-gradient(ellipse at 0% 50%,rgba(0,229,255,.04),transparent 55%),
+                 radial-gradient(ellipse at 100% 50%,rgba(255,0,85,.04),transparent 55%),
+                 var(--bg);
+      position:relative;
+    }
+    #cyber::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,var(--cyan),var(--cyber-pink),transparent);
+    }
+
+    .cgrid {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+      gap:1.75rem;
+    }
+    .ccard {
+      background:var(--card); border:1px solid var(--border);
+      padding:2rem; position:relative; overflow:hidden;
+      transition:transform .35s,border-color .35s,box-shadow .35s;
+    }
+    .ccard::before {
+      content:''; position:absolute; top:0; left:0;
+      width:3px; height:100%;
+      background:var(--cyan); box-shadow:var(--glow-cyan);
+    }
+    .ccard:hover {
+      transform:translateY(-6px);
+      border-color:rgba(0,229,255,.35);
+      box-shadow:0 22px 44px rgba(0,0,0,.45),0 0 28px rgba(0,229,255,.07);
+    }
+    .c-icon { font-size:1.9rem; margin-bottom:.9rem; display:block; }
+    .c-title {
+      font-family:'Orbitron',monospace; font-size:.95rem;
+      font-weight:700; color:var(--cyan); letter-spacing:2px;
+      margin-bottom:.3rem;
+    }
+    .c-jp { font-family:'Noto Serif JP',serif; font-size:.8rem; color:var(--dim); margin-bottom:.85rem; }
+    .ccard p { font-size:.87rem; line-height:1.85; color:var(--dim); }
+    .tag {
+      display:inline-block; margin-top:.9rem;
+      padding:.22rem .7rem;
+      border:1px solid var(--cyber-pink);
+      color:var(--cyber-pink);
+      font-family:'Orbitron',monospace; font-size:.55rem; letter-spacing:2px;
+    }
+
+    /* ============================
+       EDO TRADITION
+    ============================*/
+    #edo { background:linear-gradient(180deg,#090c14,#0a0d18); position:relative; }
+    #edo::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+    #edo .eyebrow { color:var(--red); }
+    #edo .sec-title { font-family:'Noto Serif JP',serif; color:var(--gold); }
+    #edo .divider { background:linear-gradient(90deg,transparent,var(--red),transparent); }
+
+    .tgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(275px,1fr)); gap:2rem; }
+    .tcard {
+      background:rgba(255,255,255,.025); border:1px solid rgba(188,0,45,.18);
+      padding:2.2rem 2rem; text-align:center; position:relative;
+      transition:background .35s,transform .35s,box-shadow .35s;
+    }
+    .tcard::before {
+      content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+      width:50%; height:1px;
+      background:linear-gradient(90deg,transparent,var(--red),transparent);
+    }
+    .tcard:hover { background:rgba(188,0,45,.06); transform:translateY(-5px); box-shadow:0 18px 38px rgba(0,0,0,.3); }
+    .t-icon { font-size:2.8rem; margin-bottom:1.2rem; display:block; }
+    .t-title { font-family:'Noto Serif JP',serif; font-size:1.2rem; font-weight:700; color:var(--gold); margin-bottom:.3rem; }
+    .t-jp { font-family:'Noto Serif JP',serif; font-size:1.4rem; color:var(--red); margin-bottom:.9rem; }
+    .tcard p { font-size:.87rem; line-height:1.9; color:var(--dim); }
+
+    /* ============================
+       GASTRONOMY
+    ============================*/
+    #food { background:var(--bg); position:relative; }
+    .food-tabs {
+      display:flex; flex-wrap:wrap; gap:0;
+      border-bottom:1px solid var(--border); margin-bottom:2.5rem;
+    }
+    .ftab {
+      font-family:'Orbitron',monospace; font-size:.6rem;
+      letter-spacing:2px; padding:.9rem 1.4rem;
+      background:none; border:none; color:var(--dim);
+      transition:color .3s; text-transform:uppercase;
+      position:relative;
+    }
+    .ftab::after {
+      content:''; position:absolute; bottom:-1px; left:0; right:0;
+      height:2px; background:var(--cyber-pink);
+      transform:scaleX(0); transition:transform .3s;
+    }
+    .ftab.on { color:var(--cyber-pink); }
+    .ftab.on::after { transform:scaleX(1); }
+    .ftab:hover { color:var(--cyber-pink); }
+
+    .fpanel { display:none; }
+    .fpanel.on { display:block; }
+
+    /* Flip cards */
+    .fgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(252px,1fr)); gap:1.8rem; }
+    .fc { height:340px; perspective:1000px; cursor:pointer; }
+    .fci {
+      position:relative; width:100%; height:100%;
+      transform-style:preserve-3d;
+      transition:transform .65s cubic-bezier(.4,0,.2,1);
+    }
+    .fc:hover .fci, .fc.fl .fci { transform:rotateY(180deg); }
+
+    .ff, .fb {
+      position:absolute; inset:0; backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+    }
+    .ff { background:var(--card); border:1px solid var(--border); overflow:hidden; }
+    .ff img { width:100%; height:195px; object-fit:cover; filter:brightness(.88) saturate(1.1); transition:filter .4s; }
+    .fc:hover .ff img { filter:brightness(1) saturate(1.3); }
+    .ffi { padding:1.25rem; }
+    .fn { font-family:'Orbitron',monospace; font-size:.8rem; font-weight:700; color:var(--paper); letter-spacing:2px; margin-bottom:.2rem; }
+    .fjp { font-family:'Noto Serif JP',serif; font-size:.95rem; color:var(--cyber-pink); }
+    .fhint { position:absolute; bottom:.85rem; right:.85rem; font-size:.55rem; color:var(--dim); font-family:'Orbitron',monospace; letter-spacing:2px; }
+
+    .fb {
+      background:linear-gradient(135deg,#0d1117,#180620);
+      border:1px solid var(--cyber-pink); transform:rotateY(180deg);
+      padding:1.4rem; display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .fbt { font-family:'Orbitron',monospace; font-size:.78rem; font-weight:700; color:var(--cyber-pink); letter-spacing:2px; margin-bottom:.8rem; }
+    .fb p { font-size:.82rem; line-height:1.75; color:var(--dim); flex:1; }
+    .fr { font-size:.9rem; margin-top:.8rem; }
+
+    /* etiquette */
+    .etgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(275px,1fr)); gap:1.4rem; }
+    .eitem {
+      display:flex; gap:1rem; padding:1.4rem;
+      border:1px solid var(--border); background:var(--card);
+      align-items:flex-start;
+    }
+    .eicon { font-size:1.4rem; flex-shrink:0; margin-top:.1rem; }
+    .eitem h4 {
+      font-family:'Orbitron',monospace; font-size:.68rem;
+      letter-spacing:2px; margin-bottom:.4rem;
+    }
+    .eitem p { font-size:.84rem; color:var(--dim); line-height:1.75; }
+    .eno h4 { color:#ff5566; }
+    .eyes h4 { color:#44ee88; }
+    .einf h4 { color:var(--cyan); }
+
+    /* ============================
+       HANDBOOK
+    ============================*/
+    #guide { background:linear-gradient(180deg,#090c16,var(--bg)); }
+
+    .subh {
+      font-family:'Orbitron',monospace; font-size:.78rem;
+      letter-spacing:4px; color:var(--cyan); margin:2.8rem 0 1.2rem;
+      text-transform:uppercase;
+    }
+    body.light .subh { color:var(--red); }
+
+    .trgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1.4rem; margin-bottom:0; }
+    .trcard {
+      padding:1.8rem; border:1px solid var(--border);
+      background:var(--card); text-align:center;
+      transition:border-color .3s,transform .3s;
+    }
+    .trcard:hover { border-color:var(--cyan); transform:translateY(-4px); }
+    .tr-icon { font-size:2.2rem; margin-bottom:.9rem; display:block; }
+    .tr-title {
+      font-family:'Orbitron',monospace; font-size:.78rem;
+      letter-spacing:2px; color:var(--cyan); margin-bottom:.5rem; text-transform:uppercase;
+    }
+    body.light .tr-title { color:var(--red); }
+    .trcard p { font-size:.84rem; color:var(--dim); line-height:1.8; }
+
+    /* seasons */
+    .sgrid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin:1.5rem 0 2.5rem; }
+    @media(max-width:750px){ .sgrid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:420px){ .sgrid { grid-template-columns:1fr; } }
+    .scard {
+      padding:2.2rem 1.3rem; text-align:center;
+      border:1px solid rgba(255,255,255,.04);
+      position:relative; overflow:hidden; transition:transform .3s;
+    }
+    .scard:hover { transform:scale(1.03); z-index:2; }
+    .spr { background:linear-gradient(180deg,rgba(255,182,193,.07),transparent); }
+    .ssu { background:linear-gradient(180deg,rgba(255,220,50,.05),transparent); }
+    .sau { background:linear-gradient(180deg,rgba(255,110,40,.07),transparent); }
+    .swi { background:linear-gradient(180deg,rgba(130,190,255,.05),transparent); }
+    .s-icon { font-size:2.3rem; margin-bottom:.9rem; display:block; }
+    .s-name {
+      font-family:'Orbitron',monospace; font-size:.78rem;
+      letter-spacing:3px; color:var(--paper); margin-bottom:.35rem; text-transform:uppercase;
+    }
+    .s-jp { font-family:'Noto Serif JP',serif; font-size:1.45rem; margin-bottom:.85rem; }
+    .spr .s-jp { color:#ff8fa3; }
+    .ssu .s-jp { color:#ffd700; }
+    .sau .s-jp { color:#ff7840; }
+    .swi .s-jp { color:#96c8ff; }
+    .scard p { font-size:.82rem; color:var(--dim); line-height:1.82; }
+
+    /* audio dict */
+    .dict {
+      background:var(--card); border:1px solid var(--border);
+      padding:2rem; margin:1.5rem 0;
+    }
+    .dict-title {
+      font-family:'Orbitron',monospace; font-size:.78rem;
+      letter-spacing:3px; color:var(--cyan); margin-bottom:1.8rem; text-transform:uppercase;
+    }
+    body.light .dict-title { color:var(--red); }
+    .drow {
+      display:grid; grid-template-columns:40px 1fr 1fr auto;
+      gap:1.2rem; align-items:center;
+      padding:.85rem 0; border-bottom:1px solid rgba(255,255,255,.04);
+    }
+    @media(max-width:560px){ .drow { grid-template-columns:40px 1fr auto; } .drow .dbg { display:none; } }
+    .drow:last-child { border-bottom:none; }
+    .dbtn {
+      width:36px; height:36px; border-radius:50%;
+      border:1px solid var(--cyan); background:none;
+      color:var(--cyan); font-size:.8rem;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .3s; flex-shrink:0;
+    }
+    .dbtn:hover { background:var(--cyan); color:var(--bg); box-shadow:var(--glow-cyan); }
+    body.light .dbtn { border-color:var(--red); color:var(--red); }
+    body.light .dbtn:hover { background:var(--red); color:#fff; }
+    .djp { font-family:'Noto Serif JP',serif; font-size:1.1rem; color:var(--paper); }
+    .drm { font-family:'Orbitron',monospace; font-size:.65rem; color:var(--cyan); letter-spacing:2px; display:block; margin-top:2px; }
+    body.light .drm { color:var(--red); }
+    .dbg { font-size:.84rem; color:var(--dim); }
+    .dcat { font-family:'Orbitron',monospace; font-size:.6rem; color:var(--dim); letter-spacing:2px; }
+
+    /* currency */
+    .curr {
+      background:var(--card); border:1px solid var(--border);
+      padding:1.6rem 2rem; display:flex;
+      align-items:center; gap:2rem; flex-wrap:wrap; margin-top:1.5rem;
+    }
+    .curr-lbl { font-family:'Orbitron',monospace; font-size:.6rem; letter-spacing:3px; color:var(--cyan); display:block; margin-bottom:.3rem; }
+    body.light .curr-lbl { color:var(--red); }
+    .curr-rate { font-family:'Orbitron',monospace; font-size:1.3rem; font-weight:900; color:var(--paper); }
+    .curr-inp { display:flex; align-items:center; gap:.5rem; flex:1; min-width:150px; }
+    .curr-inp input {
+      background:none; border:none; border-bottom:1px solid var(--cyan);
+      color:var(--paper); font-family:'Orbitron',monospace; font-size:1.1rem;
+      width:90px; padding:.4rem 0; outline:none;
+    }
+    body.light .curr-inp input { border-color:var(--red); color:#1a1a2e; }
+    .curr-arrow { font-family:'Orbitron',monospace; font-size:.7rem; color:var(--dim); }
+    .curr-res { font-family:'Orbitron',monospace; font-size:1.15rem; color:var(--cyber-pink); font-weight:700; }
+
+    /* train */
+    .trainline { width:100%; height:2px; background:rgba(0,229,255,.07); position:relative; overflow:hidden; margin:1.2rem 0; }
+    .trainhead { position:absolute; top:-1px; left:0; height:4px; width:60px; background:linear-gradient(90deg,transparent,var(--cyan)); animation:train 2s linear infinite; }
+    @keyframes train { 0%{transform:translateX(-200%)} 100%{transform:translateX(calc(100vw + 200%))} }
+
+    /* ============================
+       HIDDEN GEMS
+    ============================*/
+    #gems { background:radial-gradient(ellipse at center,rgba(255,0,85,.03),var(--bg) 65%); }
+    .ggrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(295px,1fr)); gap:2.2rem; }
+    .gcard {
+      background:var(--card); border:1px solid var(--border);
+      overflow:hidden; position:relative;
+      transition:border-color .35s,transform .35s,box-shadow .35s;
+    }
+    .gcard::before {
+      content:'★ СКРИТО БИЖУ';
+      position:absolute; top:.85rem; right:.85rem;
+      font-family:'Orbitron',monospace; font-size:.5rem;
+      letter-spacing:2px; color:var(--cyber-pink);
+      border:1px solid var(--cyber-pink); padding:.2rem .5rem;
+      z-index:2; background:rgba(8,9,15,.7);
+    }
+    .gcard:hover { border-color:rgba(255,0,85,.3); transform:translateY(-5px); box-shadow:0 20px 40px rgba(0,0,0,.4); }
+    .gimg { width:100%; height:215px; object-fit:cover; filter:brightness(.82) saturate(1.1); transition:filter .4s,transform .4s; }
+    .gcard:hover .gimg { filter:brightness(1) saturate(1.4); transform:scale(1.04); }
+    .gcontent { padding:1.75rem; }
+    .g-title { font-family:'Orbitron',monospace; font-size:.88rem; color:var(--paper); letter-spacing:2px; margin-bottom:.3rem; }
+    .g-jp { font-family:'Noto Serif JP',serif; color:var(--cyber-pink); font-size:1rem; margin-bottom:.85rem; }
+    .gcard p { font-size:.86rem; color:var(--dim); line-height:1.85; }
+
+    /* ============================
+       CONTACT
+    ============================*/
+    #contact { background:linear-gradient(180deg,var(--bg),#09091a); }
+    .form-wrap { max-width:680px; margin:0 auto; }
+    .fg { margin-bottom:1.4rem; }
+    .flbl {
+      display:block; font-family:'Orbitron',monospace; font-size:.6rem;
+      letter-spacing:3px; color:var(--cyan); text-transform:uppercase;
+      margin-bottom:.5rem;
+    }
+    body.light .flbl { color:var(--red); }
+    .finp, .fsel, .ftxt {
+      width:100%; background:var(--card); border:1px solid var(--border);
+      color:var(--paper); padding:.9rem 1rem;
+      font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem;
+      transition:border-color .3s,box-shadow .3s; outline:none;
+    }
+    .finp:focus, .fsel:focus, .ftxt:focus {
+      border-color:var(--cyan); box-shadow:0 0 20px rgba(0,229,255,.08);
+    }
+    body.light .finp, body.light .fsel, body.light .ftxt { background:#fff; color:#1a1a2e; }
+    .ftxt { resize:vertical; min-height:110px; }
+    .fsel option { background:#0d1117; }
+    .fradios { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.3rem; }
+    .frl {
+      display:flex; align-items:center; gap:.45rem;
+      font-size:.84rem; color:var(--dim); cursor:pointer;
+      transition:color .3s;
+    }
+    .frl:hover { color:var(--paper); }
+    .frl input { accent-color:var(--cyan); }
+    .fsub {
+      width:100%; padding:1.1rem;
+      background:transparent; border:1px solid var(--cyan);
+      color:var(--cyan);
+      font-family:'Orbitron',monospace; font-size:.78rem;
+      font-weight:700; letter-spacing:4px; text-transform:uppercase;
+      position:relative; overflow:hidden; transition:color .4s;
+    }
+    .fsub::before {
+      content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background:var(--cyan); transition:left .38s; z-index:-1;
+    }
+    .fsub:hover { color:var(--bg); box-shadow:var(--glow-cyan); }
+    .fsub:hover::before { left:0; }
+
+    #success {
+      display:none; text-align:center; padding:3rem 2rem;
+      border:1px solid var(--cyan); background:rgba(0,229,255,.04);
+    }
+    .suc-jp { font-family:'Noto Serif JP',serif; font-size:3rem; color:var(--cyan); display:block; margin-bottom:1rem; }
+    .suc-msg { font-family:'Orbitron',monospace; font-size:.78rem; letter-spacing:3px; color:var(--dim); }
+
+    /* ============================
+       FOOTER
+    ============================*/
+    footer {
+      background:#02030a; padding:2.8rem 2rem;
+      border-top:1px solid rgba(0,229,255,.07);
+      text-align:center;
+    }
+    .ft-logo {
+      font-family:'Orbitron',monospace; font-size:1.8rem; font-weight:900;
+      color:var(--cyan); letter-spacing:6px;
+      text-shadow:var(--glow-cyan); display:block; margin-bottom:.6rem;
+    }
+    .ft-jp { font-family:'Noto Serif JP',serif; color:var(--dim); margin-bottom:1.8rem; font-size:.9rem; }
+    .ft-links {
+      display:flex; justify-content:center; gap:1.8rem;
+      flex-wrap:wrap; margin-bottom:1.8rem;
+    }
+    .ft-links a {
+      font-family:'Orbitron',monospace; font-size:.58rem;
+      letter-spacing:2px; color:var(--dim); text-transform:uppercase;
+      transition:color .3s;
+    }
+    .ft-links a:hover { color:var(--cyan); }
+    .ft-copy { font-size:.72rem; color:rgba(122,143,166,.35); letter-spacing:2px; }
+
+    /* ============================
+       BACK TO TOP
+    ============================*/
+    #btt {
+      position:fixed; bottom:1.8rem; right:1.8rem;
+      width:44px; height:44px;
+      border:1px solid var(--cyan); background:rgba(8,9,15,.85);
+      color:var(--cyan); font-size:1.1rem; font-weight:900;
+      display:flex; align-items:center; justify-content:center;
+      z-index:200; cursor:pointer;
+      opacity:0; transform:translateY(8px);
+      transition:all .3s;
+    }
+    #btt.vis { opacity:1; transform:none; }
+    #btt:hover { background:var(--cyan); color:var(--bg); box-shadow:var(--glow-cyan); }
+
+    /* ============================
+       GLITCH
+    ============================*/
+    .glitch { position:relative; }
+    .glitch:hover::before, .glitch:hover::after {
+      content:attr(data-text);
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      pointer-events:none;
+    }
+    .glitch:hover::before { color:var(--cyber-pink); animation:g1 .25s steps(2) infinite; }
+    .glitch:hover::after  { color:var(--cyan);       animation:g2 .25s steps(2) infinite; }
+    @keyframes g1 {
+      0%   { clip-path:inset(22% 0 58% 0); transform:translate(-2px,0); }
+      50%  { clip-path:inset(58% 0 22% 0); transform:translate(2px,0); }
+      100% { clip-path:inset(38% 0 40% 0); transform:translate(-2px,0); }
+    }
+    @keyframes g2 {
+      0%   { clip-path:inset(48% 0 30% 0); transform:translate(2px,0); }
+      50%  { clip-path:inset(30% 0 48% 0); transform:translate(-2px,0); }
+      100% { clip-path:inset(12% 0 66% 0); transform:translate(2px,0); }
+    }
+
+    /* typewriter cursor */
+    .tw::after { content:'|'; animation:blink .7s step-end infinite; color:var(--cyan); }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ============================
+       LIGHT MODE OVERRIDES
+    ============================*/
+    body.light .hero-bg {
+      background:linear-gradient(135deg,#f0ece4,#f5e4e8);
+    }
+    body.light .hero-jp { -webkit-text-stroke-color:var(--red); }
+    body.light .l1 { color:#1a1a2e; }
+    body.light .l2 { color:var(--red); text-shadow:none; }
+    body.light .hero-sub { color:#888; }
+    body.light .ccard { background:#fff; }
+    body.light .ccard::before { background:var(--red); box-shadow:none; }
+    body.light .c-title { color:var(--red); }
+    body.light .tcard { background:rgba(188,0,45,.025); }
+    body.light .fb { background:linear-gradient(135deg,#fff5f7,#fff); border-color:var(--red); }
+    body.light .fbt { color:var(--red); }
+    body.light .gcard { background:#fff; }
+    body.light .eitem { background:#fff; }
+    body.light .dict { background:#fff; }
+    body.light .trcard { background:#fff; }
+    body.light .curr { background:#fff; }
+    body.light .scard { border-color:rgba(0,0,0,.05); }
+    body.light .ft-logo { color:var(--red); text-shadow:none; }
+    body.light footer { background:#f0ece4; border-color:rgba(188,0,45,.1); }
+    body.light .ft-links a:hover { color:var(--red); }
+    body.light #btt { border-color:var(--red); color:var(--red); background:rgba(240,236,228,.9); }
+    body.light #btt:hover { background:var(--red); color:#fff; }
+    body.light .clabel { text-shadow:none; }
+
+    /* ============================
+       RESPONSIVE
+    ============================*/
+    @media(max-width:640px){
+      nav { padding:.8rem 1.2rem; }
+      .sec { padding:4rem 1.2rem; }
+      .hero-title { font-size:1.55rem; }
+      .hero-btns { flex-direction:column; align-items:center; }
+      #contrast { height:auto; flex-direction:column; }
+      .cside { height:180px; flex:none !important; }
+      .cdiv { display:none; }
+    }
+
+    /* Confetti */
+    @keyframes cfall { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(420px) rotate(700deg);opacity:0} }
+  </style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo glitch" data-text="東京" onclick="scrollTo({top:0,behavior:'smooth'})">東京</div>
+  <ul class="nav-links" id="nl">
+    <li><a href="#hero">Начало</a></li>
+    <li><a href="#cyber">Cyber Tokyo</a></li>
+    <li><a href="#edo">Традиция</a></li>
+    <li><a href="#food">Храна</a></li>
+    <li><a href="#guide">Наръчник</a></li>
+    <li><a href="#gems">Скрити Бижута</a></li>
+    <li><a href="#contact">Контакт</a></li>
+  </ul>
+  <div class="nav-right">
+    <div id="clock"><span class="cl">ТОКИО</span><span id="ctime">--:--:--</span></div>
+    <button class="icon-btn" id="theme-btn" title="Смени темата">🌙</button>
+    <button class="icon-btn" id="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div id="particles"></div>
+  <div id="sakura"></div>
+
+  <div class="hero-content" id="hc">
+    <span class="hero-jp">東京</span>
+    <div class="hero-title">
+      <span class="l1">ТОКИО</span>
+      <span class="l2 tw" id="tw"></span>
+    </div>
+    <p class="hero-sub">Сблъсък на Епохи · Столица на Контрастите · 世界都市</p>
+    <div class="hero-btns">
+      <a href="#cyber" class="nbtn">⚡ Изследвай Модерния Град</a>
+      <a href="#edo"   class="nbtn pink">⛩️ Открий Традицията</a>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- CONTRAST SPLIT -->
+<div id="contrast">
+  <div class="cside cside-cyber" onclick="document.getElementById('cyber').scrollIntoView({behavior:'smooth'})">
+    <div class="clabel">CYBER<br>TOKYO</div>
+  </div>
+  <div class="cdiv"></div>
+  <div class="cside cside-trad" onclick="document.getElementById('edo').scrollIntoView({behavior:'smooth'})">
+    <div class="clabel">EDO<br>伝統</div>
+  </div>
+</div>
+<div class="sep"></div>
+
+<!-- CYBER TOKYO -->
+<section id="cyber">
+  <div class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">// MODERN · TOKYO //</span>
+      <h2 class="sec-title">Мегаполисът<br><span style="color:var(--cyan)">на Бъдещето</span></h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Токио е живо доказателство, че научнофантастичните видения вече са реалност. Неонови светлини, роботи и безкрайни небостъргачи — добре дошъл в 2099 г., само 75 години предсрочно.</p>
+    </div>
+    <div class="cgrid">
+      <div class="ccard fi d1">
+        <span class="c-icon">🚦</span>
+        <div class="c-title">SHIBUYA CROSSING</div>
+        <div class="c-jp">渋谷スクランブル交差点</div>
+        <p>Най-натовареното кръстовище в света. При всяка смяна на светлините над 3 000 пешеходци пресичат едновременно от всички посоки. Статуята на кучето Хачико — символ на вярността — стои тук от 1934 г.</p>
+        <span class="tag">≈ 2.4 МЛН. ПЕШЕХОДЦИ / ДЕН</span>
+      </div>
+      <div class="ccard fi d2">
+        <span class="c-icon">🏙️</span>
+        <div class="c-title">SHINJUKU</div>
+        <div class="c-jp">新宿区</div>
+        <p>Сърцето на нощния Токио. Безплатна панорама от правителствената сграда на 202 м. Kabukicho — "Японският Лас Вегас". Golden Gai — 200 бара в лабиринт от алеи, всяко барче с уникална тема.</p>
+        <span class="tag">НОЩЕН ЖИВОТ • 24/7</span>
+      </div>
+      <div class="ccard fi d3">
+        <span class="c-icon">🎮</span>
+        <div class="c-title">AKIHABARA</div>
+        <div class="c-jp">秋葉原</div>
+        <p>Раят за отаку. 8-етажни магазини с аниме фигурки, Maid Cafes (сервитьорките са облечени като прислужнички от манга) и аркадни зали на GiGO на пет етажа с хиляди игри.</p>
+        <span class="tag">АНИМЕ • ТЕХНОЛОГИЯ • ГЕЙМИНГ</span>
+      </div>
+      <div class="ccard fi d4">
+        <span class="c-icon">🌈</span>
+        <div class="c-title">HARAJUKU</div>
+        <div class="c-jp">原宿</div>
+        <p>Улица Takeshita — епицентърът на японската улична мода. Цветни косплей костюми, Lolita fashion, декадентски сладкиши и субкултури, приети от обществото без осъждане.</p>
+        <span class="tag">МОДА • КОСПЛЕЙ • СУБКУЛТУРА</span>
+      </div>
+      <div class="ccard fi d5">
+        <span class="c-icon">🗼</span>
+        <div class="c-title">TOKYO SKYTREE</div>
+        <div class="c-jp">東京スカイツリー</div>
+        <p>634 метра — второто по-висока структура в света. От наблюдателната площадка при ясно време се вижда Планината Фуджи на 120 км. Нощем светлинната й схема се сменя с традиционни японски цветове.</p>
+        <span class="tag">634М • ВТОРО В СВЕТА</span>
+      </div>
+      <div class="ccard fi d6">
+        <span class="c-icon">🤖</span>
+        <div class="c-title">teamLab PLANETS</div>
+        <div class="c-jp">チームラボ プラネッツ</div>
+        <p>Дигиталният музей, където изкуството е безкрайно и живо. Ходиш бос из стаи от огледала и вода, а цифрови рибки плуват около краката ти. Японски отговор на VR — без очила, с реална магия.</p>
+        <span class="tag">ДИГИТАЛНО ИЗКУСТВО • TOYOSU</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- EDO TRADITION -->
+<section id="edo">
+  <div class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow" style="color:var(--red)">// ANCIENT · EDO //</span>
+      <h2 class="sec-title" style="font-family:'Noto Serif JP',serif;color:var(--gold)">
+        古き江戸の魂
+        <span style="display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:.45em;color:var(--dim);font-weight:400;letter-spacing:2px;margin-top:.4rem">Душата на Стария Едо</span>
+      </h2>
+      <div class="divider" style="background:linear-gradient(90deg,transparent,var(--red),transparent)"></div>
+      <p class="sec-desc">Под неоновите светлини бие сърцето на стара Япония. Храмове пазени хилядолетия, градини в пълна тишина, ритуали оцелели непокътнати в сърцето на 21-ви век.</p>
+    </div>
+    <div class="tgrid">
+      <div class="tcard fi d1">
+        <span class="t-icon">⛩️</span>
+        <div class="t-title">Сенсо-джи</div>
+        <div class="t-jp">浅草寺</div>
+        <p>Най-старият будистки храм в Токио (645 г. сл. Хр.). Каминаримон — Портата на Гърма с фенер от 700 кг — е сред най-фотографираните места в Япония. Stalls Nakamise: 100 магазина с традиционни сувенири.</p>
+      </div>
+      <div class="tcard fi d2">
+        <span class="t-icon">🌲</span>
+        <div class="t-title">Храмът Мейджи</div>
+        <div class="t-jp">明治神宮</div>
+        <p>Шинтоистки светилник, потопен в гора от 100 000 дървета насред оживен Токио. Посветен на Император Мейджи — архитекта на модерна Япония. 12-метровите дървени Тории те посрещат с тишина.</p>
+      </div>
+      <div class="tcard fi d3">
+        <span class="t-icon">🏯</span>
+        <div class="t-title">Имп. Дворец</div>
+        <div class="t-jp">皇居</div>
+        <p>Замъкът Едо — дом на императорското семейство. Източните градини са открити за публика. Бели лебеди плуват в ровове от 400-годишен камък в центъра на най-натоварения мегаполис на планетата.</p>
+      </div>
+      <div class="tcard fi d4">
+        <span class="t-icon">🎭</span>
+        <div class="t-title">Театър Кабуки</div>
+        <div class="t-jp">歌舞伎</div>
+        <p>400-годишно изкуство на грим, костюм и драма. Мъже играят всички роли. В Kabukiza в Ginza купуваш билет само за една сцена и преживяваш живо UNESCO наследство за минути.</p>
+      </div>
+      <div class="tcard fi d5">
+        <span class="t-icon">🍵</span>
+        <div class="t-title">Чаена Церемония</div>
+        <div class="t-jp">茶道</div>
+        <p>Чадо — Пътят на чая. Всяко движение е кодирано. Как нагряваш водата, как завърташ купата, как пиеш. Не е ритуал за чай — е медитация за уважение и хармония. Hamarikyu Gardens — автентично изживяване.</p>
+      </div>
+      <div class="tcard fi d6">
+        <span class="t-icon">🤼</span>
+        <div class="t-title">Сумо Борба</div>
+        <div class="t-jp">相撓</div>
+        <p>Националният спорт. Rikishi борците тежат средно 150 кг и следват строг кодекс на живот. В Токио се провеждат 3 от 6-те годишни Grand Tournaments в Ryogoku Kokugikan — не пропускай!</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- GASTRONOMY -->
+<section id="food">
+  <div class="sec-bg">
+    <div class="sec">
+      <div class="sec-hd fi">
+        <span class="eyebrow">// FOOD · MATRIX //</span>
+        <h2 class="sec-title">Токио<br><span style="color:var(--cyber-pink)">Гастрономия</span></h2>
+        <div class="divider"></div>
+        <p class="sec-desc">Токио има повече звезди Мишлен от всеки друг град в света. Над 200 000 ресторанта. Всяко ястие е изкуство. Нека ти покажем хранителната вселена.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="food-tabs">
+        <button class="ftab on" onclick="ftab('cl',this)">🍣 Класики</button>
+        <button class="ftab" onclick="ftab('st',this)">🏮 Улична Храна</button>
+        <button class="ftab" onclick="ftab('sw',this)">🍧 Лудостта</button>
+        <button class="ftab" onclick="ftab('et',this)">🥢 Етикет</button>
+      </div>
+
+      <!-- CLASSICS -->
+      <div id="p-cl" class="fpanel on">
+        <div class="fgrid">
+          <div class="fc fi d1">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&auto=format&fit=crop&q=80" alt="Суши" loading="lazy">
+                <div class="ffi"><div class="fn">SUSHI · SASHIMI</div><div class="fjp">寿司・刺身</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">СТИЛЪТ ЕДОМАЕ</div>
+                <p>Автентичното Токио суши. Оризът е слабо кисел, рибата — прясна от Toyosu Market. Правилно: потапяш само рибата в соевия сос, не ориза. Никога не размивай гари върху суши-то. Ядеш с ръце.</p>
+                <div class="fr">⭐⭐⭐⭐⭐ Мишлен</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d2">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=600&auto=format&fit=crop&q=80" alt="Рамен" loading="lazy">
+                <div class="ffi"><div class="fn">TOKYO RAMEN</div><div class="fjp">東京ラーメン</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">SHOYU RAMEN</div>
+                <p>Бульон от соев сос, пшенични спагети, Chashu (бавно готвено свинско), марован яйца и бамбук (Menma). Смучи шумно — знак на уважение към готвача и охлажда горещите спагети!</p>
+                <div class="fr">🍜 Comfort Food #1</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d3">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=600&auto=format&fit=crop&q=80" alt="Темпура" loading="lazy">
+                <div class="ffi"><div class="fn">TEMPURA</div><div class="fjp">天ぷら</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ПОРТУГАЛСКО НАСЛЕДСТВО</div>
+                <p>Донесена от португалски мисионери, но усъвършенствана до изкуство в Токио. Морски дарове и зеленчуци в ледено тесто, пържени в специално масло. Хрупкавостта е абсолютно всичко.</p>
+                <div class="fr">🦐 История от XVI век</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d4">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&auto=format&fit=crop&q=80" alt="Онигири" loading="lazy">
+                <div class="ffi"><div class="fn">ONIGIRI</div><div class="fjp">おにぎり</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ЯПОНСКА ДУШЕВНА ХРАНА</div>
+                <p>Ориз пресован в триъгълник, увит в нори (водорасли), пълнен с риба или умебоши (кисела слива). Онигири от Lawson за ¥120 е най-автентичното хапване в Токио. Японски баби правят идеалното.</p>
+                <div class="fr">💴 ¥120 = ПЕРФЕКЦИЯ</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d5">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80" alt="Кайсеки" loading="lazy">
+                <div class="ffi"><div class="fn">KAISEKI</div><div class="fjp">懐石</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ВИСША ЯПОНСКА КУХНЯ</div>
+                <p>Японската haute cuisine — многокурсово меню, следващо сезоните. Всяка чиния е произведение на изкуството. 10-15 малки курса в строго определен ред. Резервирай 6 месеца предварително.</p>
+                <div class="fr">⭐⭐⭐ Мишлен CLASS</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d6">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&auto=format&fit=crop&q=80" alt="Якинику" loading="lazy">
+                <div class="ffi"><div class="fn">WAGYU YAKINIKU</div><div class="fjp">和牛焼肉</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ГРИЛОВАНО НА МАСАТА</div>
+                <p>Грилът е вграден в масата ти. Wagyu A5 говеждо се топи при 37°C — точно телесна температура. Мраморното месо разтопява концепцията ти за говеждо завинаги. Опита е невъзможно да бъде описан.</p>
+                <div class="fr">🥩 Wagyu Experience</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STREET FOOD -->
+      <div id="p-st" class="fpanel">
+        <div class="fgrid">
+          <div class="fc fi d1">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&auto=format&fit=crop&q=80" alt="Якитори" loading="lazy">
+                <div class="ffi"><div class="fn">YAKITORI</div><div class="fjp">焼き鳥</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ОГНЕНИЯ РИТУАЛ</div>
+                <p>Пилешки шишчета на въглища Binchotan (1000°C). Глазирани с Tare сос (соев+мирин+саке) или само с морска сол. Яж в Omoide Yokocho (Алеята на Спомените) с чаша студена бира.</p>
+                <div class="fr">🔥 Shinjuku Yokocho</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d2">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1613844237701-8f3664fc2eff?w=600&auto=format&fit=crop&q=80" alt="Такояки" loading="lazy">
+                <div class="ffi"><div class="fn">TAKOYAKI</div><div class="fjp">たこ焼き</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ТОПЧЕТА С ОКТОПОД</div>
+                <p>Кръгли тестени топчета с октопод вътре, джинджифил и зелен лук. Изпичат се в специален тиган и се завъртат с шило. Отгоре — Takoyaki сос, майонеза и кацуобуши (трептящи рибни люспи).</p>
+                <div class="fr">🐙 Osaka meets Tokyo</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d3">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?w=600&auto=format&fit=crop&q=80" alt="Golden Gai" loading="lazy">
+                <div class="ffi"><div class="fn">GOLDEN GAI</div><div class="fjp">ゴールデン街</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">200 БАРА В АЛЕЯ</div>
+                <p>Shinjuku Golden Gai — лабиринт от 6 алеи с над 200 бара по 5-10 места. Всяко барче има тема: джаз, кино, аниме, поезия. Запазен от бuldозерите чрез гражданска съпротива. Истинска легенда.</p>
+                <div class="fr">🍺 Легенда на Шинджуку</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d4">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=600&auto=format&fit=crop&q=80" alt="Окономияки" loading="lazy">
+                <div class="ffi"><div class="fn">OKONOMIYAKI</div><div class="fjp">お好み焼き</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ЯПОНСКА "ПИЦА"</div>
+                <p>"Okonomi" = каквото обичаш. Палачинка от зеле и яйце, пълна с твоя избор от морски дарове, свинско, сирене. Покрита с Okonomiyaki сос и майонеза. Готвиш сам на масата — интерактивно изживяване.</p>
+                <div class="fr">🍳 Готви сам! Experience</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRAZY SWEETS -->
+      <div id="p-sw" class="fpanel">
+        <div class="fgrid">
+          <div class="fc fi d1">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&auto=format&fit=crop&q=80" alt="Крепс" loading="lazy">
+                <div class="ffi"><div class="fn">HARAJUKU CREPES</div><div class="fjp">原宿クレープ</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">СЛАДКИШ В КОНУС</div>
+                <p>Тънка палачинка, сгъната в конус, пълна с топка сладолед, парче торта, пресни ягоди и планинско количество бита сметана. Ядеш на ръка по Takeshita Dori — нещо, което Париж не може да предложи.</p>
+                <div class="fr">🍓 Takeshita Street Icon</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d2">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=600&auto=format&fit=crop&q=80" alt="Матча" loading="lazy">
+                <div class="ffi"><div class="fn">MATCHA EVERYTHING</div><div class="fjp">抹茶</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">ЗЕЛЕНОТО УМОПОМРАЧЕНИЕ</div>
+                <p>Matcha latte, cheesecake, ramen, Kit Kat, ice cream. Itoen и % Arabica правят иконичните чашки. Горчивият, земен аромат е символ на японската кухня — и зависимостта е неизлечима.</p>
+                <div class="fr">🍵 Tokyo's #1 Obsession</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d3">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop&q=80" alt="Тематичен ресторант" loading="lazy">
+                <div class="ffi"><div class="fn">THEMED CAFES</div><div class="fjp">テーマカフェ</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">КАФЕ-КАТ ВСЕЛЕНА</div>
+                <p>Neko Cafe (≈30 котки), Pokemon Cafe (Пикачу ястия), Owl Cafe (сови на ръката ти). Maid Cafes в Akihabara: "Okaerinasaimase, Goshujin-sama!" (Добре дошъл, Господарю!). Само в Токио.</p>
+                <div class="fr">🐱 Only in Tokyo</div>
+              </div>
+            </div>
+          </div>
+          <div class="fc fi d4">
+            <div class="fci">
+              <div class="ff">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=80" alt="Конбини" loading="lazy">
+                <div class="ffi"><div class="fn">KONBINI FOOD</div><div class="fjp">コンビニ</div></div>
+                <div class="fhint">HOVER →</div>
+              </div>
+              <div class="fb">
+                <div class="fbt">7-ELEVEN = ГАСТРОНОМИЯ</div>
+                <p>Японският 7-Eleven, Lawson и FamilyMart са нещо съвсем различно. Прясна храна всеки ден: Onigiri, Ramen, Karaage и невероятни десерти. "Konbini gourmet" е реален феномен — ¥150 = щастие.</p>
+                <div class="fr">🏪 24/7 Happiness</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ETIQUETTE -->
+      <div id="p-et" class="fpanel">
+        <p style="color:var(--dim);font-size:.88rem;line-height:1.85;max-width:600px;margin:0 auto 2.5rem;text-align:center">В Япония <em>как</em> ядеш е също толкова важно, колкото <em>какво</em> ядеш. Тези правила ще те превърнат в уважаван гост.</p>
+        <div class="etgrid">
+          <div class="eitem fi d1 eno">
+            <span class="eicon">❌</span>
+            <div>
+              <h4>НИКОГА — КЛЕЧКИТЕ В ОРИЗА</h4>
+              <p>Не забивай клечките вертикално в купата — свързва се пряко с погребални ритуали. Постави ги хоризонтално на поставката (hashi oki).</p>
+            </div>
+          </div>
+          <div class="eitem fi d2 eno">
+            <span class="eicon">❌</span>
+            <div>
+              <h4>НИКОГА — БАКШИШ</h4>
+              <p>Бакшишите са обида! Ако оставиш пари, сервитьорът ще те гони по улицата да ти ги върне. Страхотното обслужване (Omotenashi) е просто стандарт, не нещо специално.</p>
+            </div>
+          </div>
+          <div class="eitem fi d3 eno">
+            <span class="eicon">❌</span>
+            <div>
+              <h4>НИКОГА — ЯДЕНЕ В ДВИЖЕНИЕ</h4>
+              <p>В Япония се яде седейки. Изключения: Harajuku Crepes и конбини. Стоп, изяж, продължи — японската дисциплина е образователна.</p>
+            </div>
+          </div>
+          <div class="eitem fi d4 eyes">
+            <span class="eicon">✅</span>
+            <div>
+              <h4>ЗАДЪЛЖИТЕЛНО — ITADAKIMASU</h4>
+              <p>"Itadakimasu" преди ядене — благодаря на фермера, готвача, природата. "Gochisousama deshita" след — благодарност за прекрасното хранене. Две фрази, безкраен респект.</p>
+            </div>
+          </div>
+          <div class="eitem fi d5 eyes">
+            <span class="eicon">✅</span>
+            <div>
+              <h4>СМУЧИ РАМЕНА ШУМНО</h4>
+              <p>Шумното смучене е КОМПЛИМЕНТ на готвача! Охлажда горещите спагети. Не е лошо възпитание — точно обратното. Правилото важи само за рамен и соба.</p>
+            </div>
+          </div>
+          <div class="eitem fi d6 einf">
+            <span class="eicon">🍺</span>
+            <div>
+              <h4>KANPAI — НАЗДРАВЕ!</h4>
+              <p>Пий само след общия тост "Kanpai!". Никога не си налей сам — наливаш на другите, а те на теб. Чудесен начин да се сближиш с японци.</p>
+            </div>
+          </div>
+          <div class="eitem fi d1 einf">
+            <span class="eicon">🧻</span>
+            <div>
+              <h4>OSHIBORI — ВЛАЖНА КЪРПИЧКА</h4>
+              <p>Влажната кърпичка е за ръцете САМО. Никога за лицето. Сгъни я обратно след употреба. Малък жест, голямо уважение.</p>
+            </div>
+          </div>
+          <div class="eitem fi d2 einf">
+            <span class="eicon">💴</span>
+            <div>
+              <h4>КЕШ Е ЦАР</h4>
+              <p>Много ресторанти не приемат карти — носи йени (JPY) винаги! Искаш сметка? Нарисувай квадрат с пръст или кажи "Okaikei onegaishimasu".</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- HANDBOOK -->
+<section id="guide">
+  <div class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">// SURVIVAL · GUIDE //</span>
+      <h2 class="sec-title">Пътеводителят<br><span style="color:var(--cyan)">на Оцеляването</span></h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Всичко, което трябва да знаеш преди да стъпиш в Токио. Транспорт, сезони, речник и полезни инструменти.</p>
+    </div>
+
+    <h3 class="subh fi">🚇 Транспортна система</h3>
+    <div class="trgrid">
+      <div class="trcard fi d1">
+        <span class="tr-icon">🚇</span>
+        <div class="tr-title">Tokyo Metro</div>
+        <p>9 линии, 180 гари. 05:00–00:30. Закъснение средно 23 секунди годишно — перфектна система. Покрива всеки ъгъл на Токио.</p>
+      </div>
+      <div class="trcard fi d2">
+        <span class="tr-icon">🚂</span>
+        <div class="tr-title">Yamanote Line</div>
+        <p>Кръговата JR линия свързва Shibuya, Shinjuku, Akihabara, Ueno, Harajuku. Ако знаеш само нея — знаеш Токио. Безценна.</p>
+      </div>
+      <div class="trcard fi d3">
+        <span class="tr-icon">📱</span>
+        <div class="tr-title">Suica / Pasmo</div>
+        <p>Дигитална IC карта в телефона (Apple Pay/Google Pay). Зареди с йени, плащай метро, магазини и конбини. Без нея Токио е 40% по-трудно.</p>
+      </div>
+      <div class="trcard fi d4">
+        <span class="tr-icon">🚅</span>
+        <div class="tr-title">Shinkansen</div>
+        <p>Влакът-стрела. 320 км/ч. Tokyo → Osaka за 2.5 ч. Нула закъснения за 60 г. Bento обядите на борда са гастрономическо изживяване само по себе си.</p>
+      </div>
+    </div>
+
+    <h3 class="subh fi">🌸 Сезоните в Токио</h3>
+    <div class="sgrid fi">
+      <div class="scard spr">
+        <span class="s-icon">🌸</span>
+        <div class="s-name">Пролет</div>
+        <div class="s-jp">春</div>
+        <p>Март–Май. Sakura превръщат Токио в розов сън. Hanami (пикник под цъфналите дървета) в Ueno Park. Най-романтичното — резервирай рано!</p>
+      </div>
+      <div class="scard ssu">
+        <span class="s-icon">🎆</span>
+        <div class="s-name">Лято</div>
+        <div class="s-jp">夏</div>
+        <p>Юни–Авг. Matsuri фестивали с юката (летни кимона). Hanabi (фойерверки) над реката. Вечерни улични щандове с ухайваща храна.</p>
+      </div>
+      <div class="scard sau">
+        <span class="s-icon">🍁</span>
+        <div class="s-name">Есен</div>
+        <div class="s-jp">秋</div>
+        <p>Септ–Ноем. Momiji — кленовите листа в пламтящо червено и злато. Shinjuku Gyoen и Rikugien са зашеметяващи. Идеалното времe.</p>
+      </div>
+      <div class="scard swi">
+        <span class="s-icon">❄️</span>
+        <div class="s-name">Зима</div>
+        <div class="s-jp">冬</div>
+        <p>Дек–Февр. Illuminations из целия град. Oshogatsu (Нова Година) в храмовете — тихото, духовно Токио без туристи.</p>
+      </div>
+    </div>
+
+    <h3 class="subh fi">🎧 Аудио Речник</h3>
+    <div class="dict fi">
+      <div class="dict-title">Основни фрази — натисни ▶ за произношение</div>
+      <div class="drow">
+        <button class="dbtn" onclick="say('すみません','ja-JP')">▶</button>
+        <div><div class="djp">すみません</div><span class="drm">SUMIMASEN</span></div>
+        <div class="dbg">Извинете / Благодаря</div>
+        <div class="dcat">УНИВЕРСАЛНА</div>
+      </div>
+      <div class="drow">
+        <button class="dbtn" onclick="say('ありがとうございます','ja-JP')">▶</button>
+        <div><div class="djp">ありがとうございます</div><span class="drm">ARIGATOU GOZAIMASU</span></div>
+        <div class="dbg">Благодаря много</div>
+        <div class="dcat">БЛАГОДАРНОСТ</div>
+      </div>
+      <div class="drow">
+        <button class="dbtn" onclick="say('これはいくらですか','ja-JP')">▶</button>
+        <div><div class="djp">これはいくらですか</div><span class="drm">KORE WA IKURA DESU KA</span></div>
+        <div class="dbg">Колко струва?</div>
+        <div class="dcat">ПАЗАРУВАНЕ</div>
+      </div>
+      <div class="drow">
+        <button class="dbtn" onclick="say('トイレはどこですか','ja-JP')">▶</button>
+        <div><div class="djp">トイレはどこですか</div><span class="drm">TOIRE WA DOKO DESU KA</span></div>
+        <div class="dbg">Където е тоалетната?</div>
+        <div class="dcat">СПЕШНО</div>
+      </div>
+      <div class="drow">
+        <button class="dbtn" onclick="say('いただきます','ja-JP')">▶</button>
+        <div><div class="djp">いただきます</div><span class="drm">ITADAKIMASU</span></div>
+        <div class="dbg">Приятен апетит</div>
+        <div class="dcat">ПРЕДИ ЯДЕНЕ</div>
+      </div>
+      <div class="drow">
+        <button class="dbtn" onclick="say('英語を話せますか','ja-JP')">▶</button>
+        <div><div class="djp">英語を話せますか</div><span class="drm">EIGO WO HANASEMASU KA</span></div>
+        <div class="dbg">Говориш ли английски?</div>
+        <div class="dcat">КОМУНИКАЦИЯ</div>
+      </div>
+    </div>
+
+    <h3 class="subh fi">💱 Конвертор BGN → JPY</h3>
+    <div class="curr fi">
+      <div>
+        <span class="curr-lbl">Обменен Курс</span>
+        <div class="curr-rate" id="rate">1 лв ≈ 73 ¥</div>
+      </div>
+      <div class="curr-inp">
+        <input type="number" id="bgn" placeholder="BGN" min="0" oninput="conv()">
+        <span class="curr-arrow">лв →</span>
+      </div>
+      <div class="curr-res" id="jpy">— ¥</div>
+    </div>
+    <div class="trainline"><div class="trainhead"></div></div>
+
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- HIDDEN GEMS -->
+<section id="gems">
+  <div class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">// HIDDEN · TOKYO //</span>
+      <h2 class="sec-title">Скрити<br><span style="color:var(--cyber-pink)">Бижута</span></h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Извън туристическите маршрути, Токио крие места, за които повечето никога не научават. Ето нашите любими.</p>
+    </div>
+    <div class="ggrid">
+      <div class="gcard fi d1">
+        <img class="gimg" src="https://images.unsplash.com/photo-1601823984263-b87b59798b70?w=800&auto=format&fit=crop&q=80" alt="Odaiba" loading="lazy">
+        <div class="gcontent">
+          <div class="g-title">ODAIBA</div>
+          <div class="g-jp">お台場</div>
+          <p>Изкуственият остров в Токийския залив. 18-метров Gundam робот (движи се!), мини Статуята на свободата и teamLab Planets. Гледката към Токио нощем е несравнима с нищо друго.</p>
+        </div>
+      </div>
+      <div class="gcard fi d2">
+        <img class="gimg" src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&auto=format&fit=crop&q=80" alt="Shimokitazawa" loading="lazy">
+        <div class="gcontent">
+          <div class="g-title">SHIMOKITAZAWA</div>
+          <div class="g-jp">下北沢</div>
+          <p>Хипстърската душа на Токио. Тесни улички с винтидж магазини, грамофонни плочи и инди кафенета. Без небостъргачи, без неони — само уютни открития и случайни срещи.</p>
+        </div>
+      </div>
+      <div class="gcard fi d3">
+        <img class="gimg" src="https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&auto=format&fit=crop&q=80" alt="Yanaka" loading="lazy">
+        <div class="gcontent">
+          <div class="g-title">YANAKA</div>
+          <div class="g-jp">谷中</div>
+          <p>Единственият квартал, оцелял непокътнат от бомбардировките на WWII. Тесни улички с храмове, стари занаятчии и атмосфера на 1950-те. Истинско пътуване назад във времето.</p>
+        </div>
+      </div>
+      <div class="gcard fi d4">
+        <img class="gimg" src="https://images.unsplash.com/photo-1570521462033-3015e76e7432?w=800&auto=format&fit=crop&q=80" alt="Koenji" loading="lazy">
+        <div class="gcontent">
+          <div class="g-title">KOENJI</div>
+          <div class="g-jp">高円寺</div>
+          <p>Алтернативният Токио. Пункрок, визуал кей и субкултурна сцена. Awa Odori (август) — 10 000 танцьори по улиците. Хиляди малки бара без туристи.</p>
+        </div>
+      </div>
+      <div class="gcard fi d5">
+        <img class="gimg" src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=800&auto=format&fit=crop&q=80" alt="Fuji" loading="lazy">
+        <div class="gcontent">
+          <div class="g-title">MOUNT FUJI DAY TRIP</div>
+          <div class="g-jp">富士山</div>
+          <p>2 часа с Shinkansen. 3776 метра. Fuji Five Lakes дават перфектния отражен поглед. Sunrise Chase — незабравимо, духовно, трансформиращо. Юли–Авг за изкачване.</p>
+        </div>
+      </div>
+      <div class="gcard fi d6">
+        <img class="gimg" src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=800&auto=format&fit=crop&q=80" alt="Nikko" loading="lazy">
+        <div class="gcontent">
+          <div class="g-title">NIKKO</div>
+          <div class="g-jp">日光</div>
+          <p>2 ч. с влак — приказна гора с 1200-годишни храмове. Toshogu Shrine е украсен с 2 млн. листа злато. Тук е оригиналният символ "Не виждам, не чувам, не говоря лошо" — трите маймуни.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">// PLAN · YOUR · TRIP //</span>
+      <h2 class="sec-title">Планирай<br><span style="color:var(--cyan)">Пътуването си</span></h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Разкажи ни за своята Токио мечта и ние ще помогнем да я направим реалност.</p>
+    </div>
+    <div class="form-wrap fi">
+      <div id="form">
+        <div class="fg">
+          <label class="flbl" for="nm">Твоето аго <span style="color:var(--dim)">(или истинско)</span></label>
+          <input class="finp" type="text" id="nm" placeholder="Напр. Tokio Walker, Сузи, Ицо...">
+        </div>
+        <div class="fg">
+          <label class="flbl" for="days">Колко дни планираш?</label>
+          <select class="fsel" id="days">
+            <option value="">— Избери —</option>
+            <option>3–4 дни (Хит парад)</option>
+            <option>1 Седмица (Класическо)</option>
+            <option>2 Седмици (Дълбоко гмуркане)</option>
+            <option>Месец+ (Изследовател)</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="flbl">Какво те влече?</label>
+          <div class="fradios">
+            <label class="frl"><input type="radio" name="int" value="food"> 🍜 Храна преди всичко</label>
+            <label class="frl"><input type="radio" name="int" value="culture"> ⛩️ История и храмове</label>
+            <label class="frl"><input type="radio" name="int" value="anime"> 🎮 Аниме и технологии</label>
+            <label class="frl"><input type="radio" name="int" value="fashion"> 👘 Мода и субкултури</label>
+            <label class="frl"><input type="radio" name="int" value="all"> ✨ Всичко!</label>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="flbl" for="bud">Бюджет на ден</label>
+          <select class="fsel" id="bud">
+            <option value="">— Избери —</option>
+            <option>¥5 000–8 000 ($35–55) – Backpacker</option>
+            <option>¥10 000–20 000 ($70–140) – Среден</option>
+            <option>¥30 000+ ($200+) – Луксозен</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="flbl" for="msg">Специални желания</label>
+          <textarea class="ftxt" id="msg" placeholder="Напр. Искам да видя Tsukiji рано сутринта, интересуват ме Maid Cafes, имам алергии..."></textarea>
+        </div>
+        <button class="fsub" onclick="submit()">✈ ИЗПРАТИ — ПОДГОТВИ МОЕ ТОКИО ПЪТУВАНЕ</button>
+        <div class="trainline" style="margin-top:1.3rem"><div class="trainhead"></div></div>
+      </div>
+      <div id="success">
+        <span class="suc-jp">ありがとう</span>
+        <div class="suc-msg">ARIGATOU GOZAIMASU — ТВОЕТО ПЪТУВАНЕ СЕ ПОДГОТВЯ ✈</div>
+        <div style="margin-top:1.5rem;font-size:2rem">🗼 🌸 🍜</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="ft-logo glitch" data-text="TOKYO">TOKYO</span>
+  <div class="ft-jp">東京 — Градът, който никога не спи · 眠らない都市</div>
+  <div class="ft-links">
+    <a href="#hero">Начало</a>
+    <a href="#cyber">Cyber Tokyo</a>
+    <a href="#edo">Традиция</a>
+    <a href="#food">Храна</a>
+    <a href="#guide">Наръчник</a>
+    <a href="#gems">Скрити Бижута</a>
+    <a href="#contact">Контакт</a>
+  </div>
+  <div class="ft-copy">© 2025 TOKYO CONTRAST GUIDE · НАПРАВЕНО С ❤ И ラーメン</div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="btt" onclick="scrollTo({top:0,behavior:'smooth'})" title="Нагоре">↑</button>
+
+<script>
+  /* ─── PROGRESS BAR ─── */
+  window.addEventListener('scroll',()=>{
+    const p=window.scrollY,d=document.documentElement.scrollHeight-window.innerHeight;
+    document.getElementById('prog').style.width=(p/d*100)+'%';
+    document.getElementById('btt').classList.toggle('vis',p>400);
+    document.getElementById('nav').classList.toggle('scrolled',p>80);
+  });
+
+  /* ─── TOKYO CLOCK ─── */
+  function tick(){
+    document.getElementById('ctime').textContent=
+      new Date().toLocaleTimeString('bg-BG',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ─── THEME TOGGLE ─── */
+  let dark=true;
+  document.getElementById('theme-btn').addEventListener('click',()=>{
+    dark=!dark;
+    document.body.classList.toggle('light',!dark);
+    document.getElementById('theme-btn').textContent=dark?'🌙':'☀️';
+  });
+
+  /* ─── MOBILE MENU ─── */
+  function toggleMenu(){document.getElementById('nl').classList.toggle('open');}
+  document.querySelectorAll('#nl a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nl').classList.remove('open')));
+
+  /* ─── TYPEWRITER ─── */
+  const phrases=['Сблъсък на Епохи','時代の衝突','Бъдеще и Традиция','味の宇宙 · Гастро Вселена','Неон и Хармония','世界一の都市'];
+  let pi=0,ci=0,del=false;
+  const tw=document.getElementById('tw');
+  function type(){
+    const c=phrases[pi];
+    tw.textContent=del?c.slice(0,ci-1):c.slice(0,ci+1);
+    if(!del){ci++;if(ci===c.length){setTimeout(()=>{del=true;type();},2600);return;}}
+    else{ci--;if(ci===0){del=false;pi=(pi+1)%phrases.length;}}
+    setTimeout(type,del?48:82);
+  }
+  setTimeout(type,1200);
+
+  /* ─── PARTICLES ─── */
+  const pc=document.getElementById('particles');
+  for(let i=0;i<38;i++){
+    const p=document.createElement('div'); p.className='pt';
+    const cyan=Math.random()>.45;
+    const s=1+Math.random()*2.5;
+    const col=cyan?'#00e5ff':'#ff0055';
+    p.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;
+      <!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ТОКИО — Сблъсък на Епохи</title>
+  <meta name="description" content="Пълно ръководство за Токио – от неоновите улици на Shinjuku до древните храмове на Asakusa. Храна, транспорт, скрити бижута.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================
+       CSS CUSTOM PROPERTIES
+    ============================*/
+    :root {
+      --bg: #08090f;
+      --bg2: #0a0c18;
+      --card: #0d1117;
+      --cyber-pink: #ff0055;
+      --cyan: #00e5ff;
+      --red: #bc002d;
+      --gold: #e8c97e;
+      --paper: #fbfbfb;
+      --dim: #7a8fa6;
+      --border: rgba(0,229,255,0.13);
+      --glow-pink: 0 0 8px rgba(255,0,85,.7),0 0 20px rgba(255,0,85,.35),0 0 40px rgba(255,0,85,.15);
+      --glow-cyan: 0 0 8px rgba(0,229,255,.7),0 0 20px rgba(0,229,255,.35),0 0 40px rgba(0,229,255,.15);
+      --glow-red: 0 0 8px rgba(188,0,45,.7),0 0 20px rgba(188,0,45,.35);
+    }
+    body.light {
+      --bg: #f0ece4;
+      --bg2: #e8e2d8;
+      --card: #ffffff;
+      --dim: #5a6475;
+      --border: rgba(188,0,45,.15);
+      --paper: #1a1a2e;
+    }
+    /* ============================
+       RESET & BASE
+    ============================*/
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg);
+      color:var(--paper);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      overflow-x:hidden;
+      transition:background .4s,color .4s;
+    }
+    a { text-decoration:none; color:inherit; }
+    img { max-width:100%; display:block; }
+    button { cursor:pointer; font-family:inherit; }
+    /* ============================
+       SCROLL PROGRESS BAR
+    ============================*/
+    #prog {
+      position:fixed; top:0; left:0; height:3px; width:0%;
+      background:linear-gradient(90deg,var(--cyber-pink),var(--cyan));
+      box-shadow:var(--glow-cyan); z-index:9999;
+      transition:width .08s linear;
+    }
+    /* ============================
+       NAVIGATION
+    ============================*/
+    nav {
+      position:fixed; top:3px; left:0; right:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1rem 2rem;
+      background:rgba(8,9,15,.88);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(0,229,255,.08);
+      z-index:1000; transition:padding .3s,background .4s;
+    }
+    body.light nav { background:rgba(240,236,228,.92); border-color:rgba(188,0,45,.1); }
+    nav.scrolled { padding:.65rem 2rem; }
+    .logo {
+      font-family:'Orbitron',monospace; font-size:1.35rem; font-weight:900;
+      color:var(--cyan); letter-spacing:4px;
+      text-shadow:var(--glow-cyan); user-select:none;
+    }
+    body.light .logo { color:var(--red); text-shadow:none; }
+    .nav-links {
+      display:flex; gap:1.5rem; list-style:none;
+    }
+    .nav-links a {
+      font-family:'Orbitron',monospace; font-size:.6rem; font-weight:700;
+      color:var(--dim); letter-spacing:2px; text-transform:uppercase;
+      position:relative; transition:color .3s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:1px; background:var(--cyan);
+      transition:width .3s;
+    }
+    .nav-links a:hover { color:var(--cyan); }
+    .nav-links a:hover::after { width:100%; }
+    body.light .nav-links a:hover { color:var(--red); }
+    body.light .nav-links a::after { background:var(--red); }
+    .nav-right { display:flex; align-items:center; gap:.8rem; }
+    #clock {
+      font-family:'Orbitron',monospace; font-size:.7rem;
+      color:var(--cyan); letter-spacing:2px; text-align:right;
+    }
+    #clock .cl { font-size:.5rem; color:var(--dim); display:block; margin-bottom:2px; }
+    body.light #clock { color:var(--red); }
+    .icon-btn {
+      width:36px; height:36px; border-radius:50%;
+      border:1px solid var(--cyan); background:none;
+      color:var(--cyan); font-size:1rem;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .3s;
+    }
+    .icon-btn:hover { background:var(--cyan); color:var(--bg); box-shadow:var(--glow-cyan); }
+    body.light .icon-btn { border-color:var(--red); color:var(--red); }
+    body.light .icon-btn:hover { background:var(--red); color:#fff; }
+    #menu-btn { display:none; }
+    /* mobile nav */
+    @media(max-width:860px){
+      .nav-links {
+        display:none; flex-direction:column; gap:.75rem;
+        position:absolute; top:100%; left:0; right:0;
+        background:rgba(8,9,15,.97); padding:1.5rem 2rem;
+        border-bottom:1px solid var(--border);
+      }
+      .nav-links.open { display:flex; }
+      #menu-btn { display:flex; }
+    }
+    /* ============================
+       HERO
+    ============================*/
+    #hero {
+      position:relative; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+    }
+    .hero-bg {
+      position:absolute; inset:0;
+      background:radial-gradient(ellipse at 25% 50%,rgba(255,0,85,.07) 0%,transparent 55%),
+                 radial-gradient(ellipse at 75% 50%,rgba(0,229,255,.07) 0%,transparent 55%),
+                 var(--bg);
+    }
+    .grid-lines {
+      position:absolute; inset:0;
+      background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+      background-size:60px 60px;
+      animation:gridDrift 25s linear infinite;
+    }
+    @keyframes gridDrift { to { background-position:0 60px; } }
+    #particles { position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+    .pt {
+      position:absolute; border-radius:50%;
+      animation:ptFloat linear infinite; opacity:0;
+    }
+    @keyframes ptFloat {
+      0%   { opacity:0; transform:translateY(110vh) translateX(0); }
+      8%   { opacity:.9; }
+      92%  { opacity:.9; }
+      100% { opacity:0; transform:translateY(-50px) translateX(var(--dx)); }
+    }
+    #sakura { position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden; }
+    .petal {
+      position:absolute; top:-30px; font-size:.9rem; opacity:0;
+      animation:petalFall linear infinite;
+    }
+    @keyframes petalFall {
+      0%   { opacity:0; transform:translateY(0) rotate(0deg); }
+      8%   { opacity:.8; }
+      92%  { opacity:.7; }
+      100% { opacity:0; transform:translateY(110vh) rotate(540deg); }
+    }
+    .hero-content {
+      position:relative; z-index:10;
+      text-align:center; padding:1.5rem;
+      opacity:0; transform:translateY(24px);
+      transition:opacity .9s ease,transform .9s ease;
+    }
+    .hero-content.vis { opacity:1; transform:none; }
+    .hero-jp {
+      font-family:'Noto Serif JP',serif;
+      font-size:clamp(3rem,10vw,7rem); font-weight:700;
+      color:transparent;
+      -webkit-text-stroke:1px var(--cyan);
+      letter-spacing:12px; display:block;
+      margin-bottom:.3rem; opacity:.35;
+    }
+    .hero-title {
+      font-family:'Orbitron',monospace;
+      font-size:clamp(1.6rem,5.5vw,4.2rem);
+      font-weight:900; line-height:1.1;
+      letter-spacing:4px; margin-bottom:1.2rem;
+    }
+    .l1 { color:var(--paper); display:block; }
+    .l2 { color:var(--cyber-pink); text-shadow:var(--glow-pink); display:block; }
+    .hero-sub {
+      font-size:.82rem; color:var(--dim);
+      letter-spacing:4px; text-transform:uppercase;
+      margin-bottom:2.8rem;
+    }
+    .hero-btns { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+    .nbtn {
+      font-family:'Orbitron',monospace; font-size:.7rem;
+      font-weight:700; letter-spacing:3px; text-transform:uppercase;
+      padding:.85rem 1.8rem;
+      border:1px solid currentColor;
+      background:transparent;
+      display:inline-flex; align-items:center; gap:.5rem;
+      position:relative; overflow:hidden;
+      transition:color .35s; color:var(--cyan);
+    }
+    .nbtn::before {
+      content:''; position:absolute; inset:0;
+      background:currentColor; opacity:0;
+      transition:opacity .35s; z-index:-1;
+    }
+    .nbtn:hover::before { opacity:1; }
+    .nbtn:hover { color:var(--bg); box-shadow:var(--glow-cyan); }
+    .nbtn.pink { color:var(--cyber-pink); }
+    .nbtn.pink:hover { box-shadow:var(--glow-pink); }
+    .scroll-ind {
+      position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+      z-index:10; display:flex; flex-direction:column; align-items:center;
+      gap:.4rem; color:var(--dim); font-size:.55rem;
+      font-family:'Orbitron',monospace; letter-spacing:3px;
+    }
+    .scroll-line {
+      width:1px; height:44px;
+      background:linear-gradient(to bottom,var(--cyan),transparent);
+      animation:lineP 2.2s ease-in-out infinite;
+    }
+    @keyframes lineP { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+    
+    /* ============================
+       CONTRAST SPLIT
+    ============================*/
+    #contrast {
+      display:flex; height:56vh; min-height:320px; overflow:hidden;
+    }
+    .cside {
+      flex:1; position:relative;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; overflow:hidden;
+      transition:flex .55s cubic-bezier(.4,0,.2,1);
+    }
+    .cside:hover { flex:2.2; }
+    .cside::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(8,9,15,.55); z-index:1;
+      transition:background .4s;
+    }
+    .cside:hover::before { background:rgba(8,9,15,.3); }
+    .cside-cyber { background:url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1400&auto=format&fit=crop') center/cover; }
+    .cside-trad { background:url('https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=1400&auto=format&fit=crop') center/cover; }
+    .clabel {
+      position:relative; z-index:2;
+      font-family:'Orbitron',monospace;
+      font-size:clamp(1.3rem,2.8vw,2.4rem);
+      font-weight:900; letter-spacing:5px;
+      text-align:center; line-height:1.3;
+      text-transform:uppercase; pointer-events:none;
+    }
+    .cside-cyber .clabel { color:var(--cyan); text-shadow:var(--glow-cyan); }
+    .cside-trad  .clabel { color:var(--gold); text-shadow:0 0 20px rgba(232,201,126,.5); }
+    .cdiv {
+      position:absolute; top:0; left:50%; width:2px; height:100%;
+      background:linear-gradient(to bottom,transparent,var(--cyan),var(--cyber-pink),transparent);
+      z-index:5; pointer-events:none;
+    }
+
+    /* ============================
+       SHARED SECTIONS
+    ============================*/
+    .sep { height:1px; background:linear-gradient(90deg,transparent,rgba(0,229,255,.3),rgba(255,0,85,.2),transparent); }
+    .sec { padding:5.5rem 2rem; max-width:1360px; margin:0 auto; }
+    .sec-bg { padding:5.5rem 0; }
+    .sec-bg .sec { padding-top:0; padding-bottom:0; }
+    .sec-hd { text-align:center; margin-bottom:3.5rem; }
+    .eyebrow { font-family:'Orbitron',monospace; font-size:.58rem; letter-spacing:5px; color:var(--cyan); text-transform:uppercase; display:block; margin-bottom:.8rem; }
+    .sec-title { font-family:'Orbitron',monospace; font-size:clamp(1.8rem,4vw,3.2rem); font-weight:900; line-height:1.12; letter-spacing:3px; margin-bottom:1.2rem; }
+    .sec-desc { font-size:.9rem; color:var(--dim); max-width:580px; margin:0 auto; line-height:1.85; }
+    .divider { width:70px; height:1px; margin:1.4rem auto; background:linear-gradient(90deg,transparent,var(--cyan),transparent); }
+    .fi { opacity:0; transform:translateY(28px); transition:opacity .65s ease,transform .65s ease; }
+    .fi.vis { opacity:1; transform:none; }
+    .fi.d1 { transition-delay:.05s; }
+    .fi.d2 { transition-delay:.12s; }
+    .fi.d3 { transition-delay:.19s; }
+
+    /* ============================
+       CYBER TOKYO
+    ============================*/
+    #cyber { background:radial-gradient(ellipse at 0% 50%,rgba(0,229,255,.04),transparent 55%), radial-gradient(ellipse at 100% 50%,rgba(255,0,85,.04),transparent 55%), var(--bg); position:relative; }
+    #cyber::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--cyan),var(--cyber-pink),transparent); }
+    .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:1.75rem; }
+    .ccard { background:var(--card); border:1px solid var(--border); padding:2rem; position:relative; overflow:hidden; transition:transform .35s,border-color .35s,box-shadow .35s; }
+    .ccard::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--cyan); box-shadow:var(--glow-cyan); }
+    .ccard:hover { transform:translateY(-6px); border-color:rgba(0,229,255,.35); box-shadow:0 22px 44px rgba(0,0,0,.45),0 0 28px rgba(0,229,255,.07); }
+    .c-icon { font-size:1.9rem; margin-bottom:.9rem; display:block; }
+    .c-title { font-family:'Orbitron',monospace; font-size:.95rem; font-weight:700; color:var(--cyan); letter-spacing:2px; margin-bottom:.3rem; }
+    .c-jp { font-family:'Noto Serif JP',serif; font-size:.8rem; color:var(--dim); margin-bottom:.85rem; }
+    .ccard p { font-size:.87rem; line-height:1.85; color:var(--dim); }
+    .tag { display:inline-block; margin-top:.9rem; padding:.22rem .7rem; border:1px solid var(--cyber-pink); color:var(--cyber-pink); font-family:'Orbitron',monospace; font-size:.55rem; letter-spacing:2px; }
+
+    /* ============================
+       EDO TRADITION
+    ============================*/
+    #edo { background:linear-gradient(180deg,#090c14,#0a0d18); position:relative; }
+    #edo::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    #edo .eyebrow { color:var(--red); }
+    #edo .sec-title { font-family:'Noto Serif JP',serif; color:var(--gold); }
+    #edo .divider { background:linear-gradient(90deg,transparent,var(--red),transparent); }
+    .tgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(275px,1fr)); gap:2rem; }
+    .tcard { background:rgba(255,255,255,.025); border:1px solid rgba(188,0,45,.18); padding:2.2rem 2rem; text-align:center; position:relative; transition:background .35s,transform .35s,box-shadow .35s; }
+    .tcard::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:50%; height:1px; background:linear-gradient(90deg,transparent,var(--red),transparent); }
+    .tcard:hover { background:rgba(188,0,45,.06); transform:translateY(-5px); box-shadow:0 18px 38px rgba(0,0,0,.3); }
+    .t-icon { font-size:2.8rem; margin-bottom:1.2rem; display:block; }
+    .t-title { font-family:'Noto Serif JP',serif; font-size:1.2rem; font-weight:700; color:var(--gold); margin-bottom:.3rem; }
+    .t-jp { font-family:'Noto Serif JP',serif; font-size:1.4rem; color:var(--red); margin-bottom:.9rem; }
+    .tcard p { font-size:.87rem; line-height:1.9; color:var(--dim); }
+
+    /* ============================
+       GASTRONOMY & TABS
+    ============================*/
+    #food { background:var(--bg); position:relative; }
+    .food-tabs { display:flex; flex-wrap:wrap; border-bottom:1px solid var(--border); margin-bottom:2.5rem; }
+    .ftab { font-family:'Orbitron',monospace; font-size:.6rem; letter-spacing:2px; padding:.9rem 1.4rem; background:none; border:none; color:var(--dim); transition:color .3s; text-transform:uppercase; position:relative; }
+    .ftab::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px; background:var(--cyber-pink); transform:scaleX(0); transition:transform .3s; }
+    .ftab.on { color:var(--cyber-pink); }
+    .ftab.on::after { transform:scaleX(1); }
+    .ftab:hover { color:var(--cyber-pink); }
+    .fpanel { display:none; }
+    .fpanel.on { display:block; }
+    .fgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(252px,1fr)); gap:1.8rem; }
+    .fc { height:340px; perspective:1000px; cursor:pointer; }
+    .fci { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .65s cubic-bezier(.4,0,.2,1); }
+    .fc:hover .fci, .fc.fl .fci { transform:rotateY(180deg); }
+    .ff, .fb { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+    .ff { background:var(--card); border:1px solid var(--border); overflow:hidden; }
+    .ff img { width:100%; height:195px; object-fit:cover; filter:brightness(.88) saturate(1.1); transition:filter .4s; }
+    .fc:hover .ff img { filter:brightness(1) saturate(1.3); }
+    .ffi { padding:1.25rem; }
+    .fn { font-family:'Orbitron',monospace; font-size:.8rem; font-weight:700; color:var(--paper); letter-spacing:2px; margin-bottom:.2rem; }
+    .fjp { font-family:'Noto Serif JP',serif; font-size:.95rem; color:var(--cyber-pink); }
+    .fhint { position:absolute; bottom:.85rem; right:.85rem; font-size:.55rem; color:var(--dim); font-family:'Orbitron',monospace; letter-spacing:2px; }
+    .fb { background:linear-gradient(135deg,#0d1117,#180620); border:1px solid var(--cyber-pink); transform:rotateY(180deg); padding:1.4rem; display:flex; flex-direction:column; justify-content:space-between; }
+    .fbt { font-family:'Orbitron',monospace; font-size:.78rem; font-weight:700; color:var(--cyber-pink); letter-spacing:2px; margin-bottom:.8rem; }
+    .fb p { font-size:.82rem; line-height:1.75; color:var(--dim); flex:1; }
+    .fr { font-size:.9rem; margin-top:.8rem; }
+    
+    .etgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(275px,1fr)); gap:1.4rem; }
+    .eitem { display:flex; gap:1rem; padding:1.4rem; border:1px solid var(--border); background:var(--card); align-items:flex-start; }
+    .eicon { font-size:1.4rem; flex-shrink:0; }
+    .eitem h4 { font-family:'Orbitron',monospace; font-size:.68rem; letter-spacing:2px; margin-bottom:.4rem; }
+    .eitem p { font-size:.84rem; color:var(--dim); line-height:1.75; }
+    .eno h4 { color:#ff5566; } .eyes h4 { color:#44ee88; } .einf h4 { color:var(--cyan); }
+
+    /* ============================
+       HANDBOOK & UTILITIES
+    ============================*/
+    #guide { background:linear-gradient(180deg,#090c16,var(--bg)); }
+    .subh { font-family:'Orbitron',monospace; font-size:.78rem; letter-spacing:4px; color:var(--cyan); margin:2.8rem 0 1.2rem; text-transform:uppercase; }
+    body.light .subh { color:var(--red); }
+    .trgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1.4rem; }
+    .trcard { padding:1.8rem; border:1px solid var(--border); background:var(--card); text-align:center; transition:border-color .3s,transform .3s; }
+    .trcard:hover { border-color:var(--cyan); transform:translateY(-4px); }
+    .tr-icon { font-size:2.2rem; margin-bottom:.9rem; display:block; }
+    .tr-title { font-family:'Orbitron',monospace; font-size:.78rem; letter-spacing:2px; color:var(--cyan); margin-bottom:.5rem; text-transform:uppercase; }
+    body.light .tr-title { color:var(--red); }
+    .trcard p { font-size:.84rem; color:var(--dim); line-height:1.8; }
+    .trainline { width:100%; height:2px; background:rgba(0,229,255,.07); position:relative; overflow:hidden; margin:1.2rem 0; }
+    .trainhead { position:absolute; top:-1px; left:0; height:4px; width:60px; background:linear-gradient(90deg,transparent,var(--cyan)); animation:train 2s linear infinite; }
+    @keyframes train { 0%{transform:translateX(-200%)} 100%{transform:translateX(calc(100vw + 200%))} }
+
+    .sgrid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin:1.5rem 0 2.5rem; }
+    @media(max-width:750px){ .sgrid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:420px){ .sgrid { grid-template-columns:1fr; } }
+    .scard { padding:2.2rem 1.3rem; text-align:center; border:1px solid rgba(255,255,255,.04); position:relative; overflow:hidden; transition:transform .3s; }
+    .scard:hover { transform:scale(1.03); z-index:2; }
+    .spr { background:linear-gradient(180deg,rgba(255,182,193,.07),transparent); }
+    .ssu { background:linear-gradient(180deg,rgba(255,220,50,.05),transparent); }
+    .sau { background:linear-gradient(180deg,rgba(255,110,40,.07),transparent); }
+    .swi { background:linear-gradient(180deg,rgba(130,190,255,.05),transparent); }
+    .s-icon { font-size:2.3rem; margin-bottom:.9rem; display:block; }
+    .s-name { font-family:'Orbitron',monospace; font-size:.78rem; letter-spacing:3px; color:var(--paper); margin-bottom:.35rem; text-transform:uppercase; }
+    .s-jp { font-family:'Noto Serif JP',serif; font-size:1.45rem; margin-bottom:.85rem; }
+    .spr .s-jp { color:#ff8fa3; } .ssu .s-jp { color:#ffd700; } .sau .s-jp { color:#ff7840; } .swi .s-jp { color:#96c8ff; }
+    .scard p { font-size:.82rem; color:var(--dim); line-height:1.82; }
+
+    /* Audio Dictionary & Currency */
+    .dict { background:var(--card); border:1px solid var(--border); padding:2rem; margin:1.5rem 0; }
+    .dict-title { font-family:'Orbitron',monospace; font-size:.78rem; letter-spacing:3px; color:var(--cyan); margin-bottom:1.8rem; text-transform:uppercase; }
+    body.light .dict-title { color:var(--red); }
+    .drow { display:grid; grid-template-columns:40px 1fr 1fr auto; gap:1.2rem; align-items:center; padding:.85rem 0; border-bottom:1px solid rgba(255,255,255,.04); }
+    @media(max-width:560px){ .drow { grid-template-columns:40px 1fr auto; } .drow .dbg { display:none; } }
+    .drow:last-child { border-bottom:none; }
+    .dbtn { width:36px; height:36px; border-radius:50%; border:1px solid var(--cyan); background:none; color:var(--cyan); font-size:.8rem; display:flex; align-items:center; justify-content:center; transition:all .3s; }
+    .dbtn:hover { background:var(--cyan); color:var(--bg); box-shadow:var(--glow-cyan); }
+    body.light .dbtn { border-color:var(--red); color:var(--red); }
+    body.light .dbtn:hover { background:var(--red); color:#fff; }
+    .djp { font-family:'Noto Serif JP',serif; font-size:1.1rem; color:var(--paper); }
+    .drm { font-family:'Orbitron',monospace; font-size:.65rem; color:var(--cyan); letter-spacing:2px; display:block; margin-top:2px; }
+    body.light .drm { color:var(--red); }
+    .dbg { font-size:.84rem; color:var(--dim); }
+    .dcat { font-family:'Orbitron',monospace; font-size:.6rem; color:var(--dim); letter-spacing:2px; }
+
+    .curr { background:var(--card); border:1px solid var(--border); padding:1.6rem 2rem; display:flex; align-items:center; gap:2rem; flex-wrap:wrap; margin-top:1.5rem; }
+    .curr-lbl { font-family:'Orbitron',monospace; font-size:.6rem; letter-spacing:3px; color:var(--cyan); display:block; margin-bottom:.3rem; }
+    body.light .curr-lbl { color:var(--red); }
+    .curr-rate { font-family:'Orbitron',monospace; font-size:1.3rem; font-weight:900; color:var(--paper); }
+    .curr-inp { display:flex; align-items:center; gap:.5rem; flex:1; min-width:150px; }
+    .curr-inp input { background:none; border:none; border-bottom:1px solid var(--cyan); color:var(--paper); font-family:'Orbitron',monospace; font-size:1.1rem; width:90px; padding:.4rem 0; outline:none; }
+    body.light .curr-inp input { border-color:var(--red); color:#1a1a2e; }
+    .curr-arrow { font-family:'Orbitron',monospace; font-size:.7rem; color:var(--dim); }
+    .curr-res { font-family:'Orbitron',monospace; font-size:1.15rem; color:var(--cyber-pink); font-weight:700; }
+
+    /* ============================
+       HIDDEN GEMS
+    ============================*/
+    #gems { background:radial-gradient(ellipse at center,rgba(255,0,85,.03),var(--bg) 65%); }
+    .ggrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(295px,1fr)); gap:2.2rem; }
+    .gcard { background:var(--card); border:1px solid var(--border); overflow:hidden; position:relative; transition:border-color .35s,transform .35s,box-shadow .35s; }
+    .gcard::before { content:'★ СКРИТО БИЖУ'; position:absolute; top:.85rem; right:.85rem; font-family:'Orbitron',monospace; font-size:.5rem; letter-spacing:2px; color:var(--cyber-pink); border:1px solid var(--cyber-pink); padding:.2rem .5rem; z-index:2; background:rgba(8,9,15,.7); }
+    .gcard:hover { border-color:rgba(255,0,85,.3); transform:translateY(-5px); box-shadow:0 20px 40px rgba(0,0,0,.4); }
+    .gimg { width:100%; height:215px; object-fit:cover; filter:brightness(.82) saturate(1.1); transition:filter .4s,transform .4s; }
+    .gcard:hover .gimg { filter:brightness(1) saturate(1.4); transform:scale(1.04); }
+    .gcontent { padding:1.75rem; }
+    .g-title { font-family:'Orbitron',monospace; font-size:.88rem; color:var(--paper); letter-spacing:2px; margin-bottom:.3rem; }
+    .g-jp { font-family:'Noto Serif JP',serif; color:var(--cyber-pink); font-size:1rem; margin-bottom:.85rem; }
+    .gcard p { font-size:.86rem; color:var(--dim); line-height:1.85; }
+
+    /* ============================
+       CONTACT & PLANNER
+    ============================*/
+    #contact { background:linear-gradient(180deg,var(--bg),#09091a); }
+    .form-wrap { max-width:680px; margin:0 auto; }
+    .fg { margin-bottom:1.4rem; }
+    .flbl { display:block; font-family:'Orbitron',monospace; font-size:.6rem; letter-spacing:3px; color:var(--cyan); text-transform:uppercase; margin-bottom:.5rem; }
+    body.light .flbl { color:var(--red); }
+    .finp, .fsel, .ftxt { width:100%; background:var(--card); border:1px solid var(--border); color:var(--paper); padding:.9rem 1rem; font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; transition:border-color .3s,box-shadow .3s; outline:none; }
+    .finp:focus, .fsel:focus, .ftxt:focus { border-color:var(--cyan); box-shadow:0 0 20px rgba(0,229,255,.08); }
+    body.light .finp, body.light .fsel, body.light .ftxt { background:#fff; color:#1a1a2e; }
+    .ftxt { resize:vertical; min-height:110px; }
+    .fsel option { background:#0d1117; }
+    .fradios { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.3rem; }
+    .frl { display:flex; align-items:center; gap:.45rem; font-size:.84rem; color:var(--dim); cursor:pointer; transition:color .3s; }
+    .frl:hover { color:var(--paper); }
+    .frl input { accent-color:var(--cyan); }
+    .fsub { width:100%; padding:1.1rem; background:transparent; border:1px solid var(--cyan); color:var(--cyan); font-family:'Orbitron',monospace; font-size:.78rem; font-weight:700; letter-spacing:4px; text-transform:uppercase; position:relative; overflow:hidden; transition:color .4s; }
+    .fsub::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--cyan); transition:left .38s; z-index:-1; }
+    .fsub:hover { color:var(--bg); box-shadow:var(--glow-cyan); }
+    .fsub:hover::before { left:0; }
+    #success { display:none; text-align:center; padding:3rem 2rem; border:1px solid var(--cyan); background:rgba(0,0,0,.04); }
+    .suc-jp { font-family:'Noto Serif JP',serif; font-size:3rem; color:var(--cyan); display:block; margin-bottom:1rem; }
+    .suc-msg { font-family:'Orbitron',monospace; font-size:.78rem; letter-spacing:3px; color:var(--dim); }
+
+    /* ============================
+       FOOTER & BACK TO TOP
+    ============================*/
+    footer { background:#02030a; padding:2.8rem 2rem; border-top:1px solid rgba(0,229,255,.07); text-align:center; }
+    .ft-logo { font-family:'Orbitron',monospace; font-size:1.8rem; font-weight:900; color:var(--cyan); letter-spacing:6px; text-shadow:var(--glow-cyan); display:block; margin-bottom:.6rem; }
+    .ft-jp { font-family:'Noto Serif JP',serif; color:var(--dim); margin-bottom:1.8rem; font-size:.9rem; }
+    .ft-links { display:flex; justify-content:center; gap:1.8rem; flex-wrap:wrap; margin-bottom:1.8rem; }
+    .ft-links a { font-family:'Orbitron',monospace; font-size:.58rem; letter-spacing:2px; color:var(--dim); text-transform:uppercase; transition:color .3s; }
+    .ft-links a:hover { color:var(--cyan); }
+    .ft-copy { font-size:.72rem; color:rgba(122,143,166,.35); letter-spacing:2px; }
+
+    #btt { position:fixed; bottom:1.8rem; right:1.8rem; width:44px; height:44px; border:1px solid var(--cyan); background:rgba(8,9,15,.85); color:var(--cyan); font-size:1.1rem; font-weight:900; display:flex; align-items:center; justify-content:center; z-index:200; cursor:pointer; opacity:0; transform:translateY(8px); transition:all .3s; }
+    #btt.vis { opacity:1; transform:none; }
+    #btt:hover { background:var(--cyan); color:var(--bg); box-shadow:var(--glow-cyan); }
+
+    /* ============================
+       GLITCH EFFECT
+    ============================*/
+    .glitch { position:relative; }
+    .glitch:hover::before, .glitch:hover::after { content:attr(data-text); position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+    .glitch:hover::before { color:var(--cyber-pink); animation:g1 .25s steps(2) infinite; }
+    .glitch:hover::after  { color:var(--cyan);       animation:g2 .25s steps(2) infinite; }
+    @keyframes g1 {
+      0%   { clip-path:inset(22% 0 58% 0); transform:translate(-2px,0); }
+      50%  { clip-path:inset(58% 0 22% 0); transform:translate(2px,0); }
+      100% { clip-path:inset(38% 0 40% 0); transform:translate(-2px,0); }
+    }
+    @keyframes g2 {
+      0%   { clip-path:inset(48% 0 30% 0); transform:translate(2px,0); }
+      50%  { clip-path:inset(30% 0 48% 0); transform:translate(-2px,0); }
+      100% { clip-path:inset(12% 0 66% 0); transform:translate(2px,0); }
+    }
+
+    /* Light Theme Overrides */
+    body.light .hero-bg { background:linear-gradient(135deg,#f0ece4,#f5e4e8); }
+    body.light .hero-jp { -webkit-text-stroke-color:var(--red); }
+    body.light .l1 { color:#1a1a2e; }
+    body.light .l2 { color:var(--red); text-shadow:none; }
+    body.light .hero-sub { color:#888; }
+    body.light .ccard { background:#fff; }
+    body.light .ccard::before { background:var(--red); box-shadow:none; }
+    body.light .c-title { color:var(--red); }
+    body.light .tcard { background:rgba(188,0,45,.025); }
+    body.light .fb { background:linear-gradient(135deg,#fff5f7,#fff); border-color:var(--red); }
+    body.light .fbt { color:var(--red); }
+    body.light .gcard { background:#fff; }
+    body.light .eitem { background:#fff; }
+    body.light .dict { background:#fff; }
+    body.light .trcard { background:#fff; }
+    body.light .curr { background:#fff; }
+    body.light .scard { border-color:rgba(0,0,0,.05); }
+    body.light .ft-logo { color:var(--red); text-shadow:none; }
+    body.light footer { background:#f0ece4; border-color:rgba(188,0,45,.1); }
+    body.light .ft-links a:hover { color:var(--red); }
+    body.light #btt { border-color:var(--red); color:var(--red); background:rgba(240,236,228,.9); }
+    body.light #btt:hover { background:var(--red); color:#fff; }
+    body.light .clabel { text-shadow:none; }
+  </style>
+</head>
+<body>
+
+  <div id="prog"></div>
+
+  <nav id="navbar">
+    <div class="logo glitch" data-text="TOKYO">TOKYO</div>
+    <ul class="nav-links" id="navlinks">
+      <li><a href="#hero">Начало</a></li>
+      <li><a href="#cyber">Кибер Токио</a></li>
+      <li><a href="#edo">Едо Традиция</a></li>
+      <li><a href="#food">Гастрономия</a></li>
+      <li><a href="#guide">Наръчник</a></li>
+      <li><a href="#gems">Скрити бижута</a></li>
+      <li><a href="#contact">Контакт</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="clock">
+        <span class="cl">TOKYO TIME</span>
+        <span id="time-string">00:00:00</span>
+      </div>
+      <button class="icon-btn" id="theme-btn" title="Смяна на тема">🌓</button>
+      <button class="icon-btn" id="menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <header id="hero">
+    <div class="hero-bg"></div>
+    <div class="grid-lines"></div>
+    <div id="particles"></div>
+    <div id="sakura"></div>
+    
+    <div class="hero-content" id="hero-content">
+      <span class="hero-jp">東京</span>
+      <h1 class="hero-title">
+        <span class="l1">СБЛЪСЪК НА</span>
+        <span class="l2 glitch" data-text="ЕПОХИ">ЕПОХИ</span>
+      </h1>
+      <p class="hero-sub">Пълният дигитален пътеводител за неоновия мегаполис</p>
+      <div class="hero-btns">
+        <a href="#cyber" class="nbtn">Дигитален свят</a>
+        <a href="#edo" class="nbtn pink">Древна душа</a>
+      </div>
+    </div>
+
+    <div class="scroll-ind">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <section id="contrast">
+    <div class="cside cside-cyber" onclick="document.getElementById('cyber').scrollIntoView();">
+      <div class="clabel">НЕОН &<br>ТЕХНОЛОГИИ</div>
+    </div>
+    <div class="cdiv"></div>
+    <div class="cside cside-trad" onclick="document.getElementById('edo').scrollIntoView();">
+      <div class="clabel">ХРАМОВЕ &<br>ТРАДИЦИЯ</div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="cyber" class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">Бъдещето е тук</span>
+      <h2 class="sec-title">КИБЕР ТОКИО</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Потопете се в морето от светлина, изкуствен интелект, поп култура и субкултури, които дефинират утрешния свят.</p>
+    </div>
+
+    <div class="cgrid">
+      <div class="ccard fi d1">
+        <span class="c-icon">🏙️</span>
+        <h3 class="c-title">SHIBUYA CROSSING</h3>
+        <div class="c-jp">渋谷</div>
+        <p>Най-натовареното пешеходно кръстовище на планетата. Място, където хиляди съдби се пресичат едновременно под сиянието на мега-екраните.</p>
+        <span class="tag">Епицентър</span>
+      </div>
+      <div class="ccard fi d2">
+        <span class="c-icon">🤖</span>
+        <h3 class="c-title">AKIHABARA ELECTRIC TOWN</h3>
+        <div class="c-jp">秋葉原</div>
+        <p>Меката на Отаку културата, аниме, манга и ретро гейминг зали. Рай за технологичните маниаци и колекционерите на фигурки.</p>
+        <span class="tag">Гейминг</span>
+      </div>
+      <div class="ccard fi d3">
+        <span class="c-icon">🎆</span>
+        <h3 class="c-title">SHINJUKU NIGHTLIFE</h3>
+        <div class="c-jp">新宿</div>
+        <p>Небостъргачи, безкрайни подземни лабиринти и Кабукичо – най-известният район за нощен живот, изпълнен со светлини и мистерии.</p>
+        <span class="tag">Нощен живот</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="edo" class="sec-bg">
+    <div class="sec">
+      <div class="sec-hd fi">
+        <span class="eyebrow">Вековен покой</span>
+        <h2 class="sec-title">ЕДО ТРАДИЦИЯ</h2>
+        <div class="divider"></div>
+        <p class="sec-desc">Зад фасадата на високите технологии се крие дълбока духовна култура, съхранявана внимателно от векове.</p>
+      </div>
+
+      <div class="tgrid">
+        <div class="tcard fi d1">
+          <span class="t-icon">⛩️</span>
+          <h3 class="t-title">SENSO-JI TEMPLE</h3>
+          <div class="t-jp">浅草寺</div>
+          <p>Най-старият и свещен будистки храм в града, намиращ се в историческия район Асакуса. Вратата Kaminarimon пази духа на старо Едо.</p>
+        </div>
+        <div class="tcard fi d2">
+          <span class="t-icon">🌳</span>
+          <h3 class="t-title">MEIJI JINGU SHRINE</h3>
+          <div class="t-jp">明治神宮</div>
+          <p>Шинтоистки храм, разположен в гъста гора от над 100 000 дървета в сърцето на Токио. Перфектното бягство от градския шум.</p>
+        </div>
+        <div class="tcard fi d3">
+          <span class="t-icon">🌸</span>
+          <h3 class="t-title">SHINJUKU GYOEN</h3>
+          <div class="t-jp">新宿御苑</div>
+          <p>Една от най-красивите императорски градини, съчетаваща френски, английски и традиционен японски ландшафтен дизайн с вековни вишни.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="food" class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">Вкусовете на столицата</span>
+      <h2 class="sec-title">ГАСТРОНОМИЯ</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">От изискани суши шедьоври до улични скрити алеи – кулинарният свят на Токио е истинско приключение за сетивата.</p>
+    </div>
+
+    <div class="food-tabs fi">
+      <button class="ftab on" onclick="switchTab(event, 't-classics')">Класика</button>
+      <button class="ftab" onclick="switchTab(event, 't-street')">Улична храна</button>
+      <button class="ftab" onclick="switchTab(event, 't-etiquette')">Етикет на хранене</button>
+    </div>
+
+    <div id="t-classics" class="fpanel on">
+      <div class="fgrid">
+        <div class="fc fi d1">
+          <div class="fci">
+            <div class="ff">
+              <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600&auto=format&fit=crop" alt="Sushi">
+              <div class="ffi">
+                <h4 class="fn">EDOMAE SUSHI</h4>
+                <span class="fjp">江戸前寿司</span>
+                <span class="fhint">Клик за инфо</span>
+              </div>
+            </div>
+            <div class="fb">
+              <h4 class="fbt">ЕДОМАЕ СУШИ</h4>
+              <p>Автентичният стил суши на Токио. Рибата се обработва леко със соев сос или сол, за да се извлече максималният вкус (Umami).</p>
+              <div class="fr">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc fi d2">
+          <div class="fci">
+            <div class="ff">
+              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop" alt="Ramen">
+              <div class="ffi">
+                <h4 class="fn">SHOYU RAMEN</h4>
+                <span class="fjp">醤油ラーメン</span>
+                <span class="fhint">Клик за инфо</span>
+              </div>
+            </div>
+            <div class="fb">
+              <h4 class="fbt">ШОЮ РАМЕН</h4>
+              <p>Емблематичният за Токио рамен на базата на бистър, но изключително богат пилешки или свински бульон, овкусен с първокласен соев сос.</p>
+              <div class="fr">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc fi d3">
+          <div class="fci">
+            <div class="ff">
+              <img src="https://images.unsplash.com/photo-1581333100576-b73bfc7f219a?w=600&auto=format&fit=crop" alt="Tempura">
+              <div class="ffi">
+                <h4 class="fn">TOKYO TEMPURA</h4>
+                <span class="fjp">天ぷら</span>
+                <span class="fhint">Клик за инфо</span>
+              </div>
+            </div>
+            <div class="fb">
+              <h4 class="fbt">ТОКИО ТЕМПУРА</h4>
+              <p>Морски дарове и зеленчуци, изпържени до перфектна хрупкавост в изключително лека и ефирна панировка. Изкуство на детайла.</p>
+              <div class="fr">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t-street" class="fpanel">
+      <div class="fgrid">
+        <div class="fc">
+          <div class="fci">
+            <div class="ff">
+              <img src="https://images.unsplash.com/photo-1626200414422-5f75607b3992?w=600&auto=format&fit=crop" alt="Yakitori">
+              <div class="ffi">
+                <h4 class="fn">YAKITORI</h4>
+                <span class="fjp">焼き鳥</span>
+                <span class="fhint">Клик за инфо</span>
+              </div>
+            </div>
+            <div class="fb">
+              <h4 class="fbt">ЯКИТОРИ</h4>
+              <p>Пилешки шишчета, изпечени на традиционни дървени въглища пред очите ви, глазирани с гъст сладък сос или само с морска сол.</p>
+              <div class="fr">🍢 Улична магия</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc">
+          <div class="fci">
+            <div class="ff">
+              <img src="https://images.unsplash.com/photo-1593001775466-492e57bb3173?w=600&auto=format&fit=crop" alt="Takoyaki">
+              <div class="ffi">
+                <h4 class="fn">TAKOYAKI</h4>
+                <span class="fjp">たこ焼き</span>
+                <span class="fhint">Клик за инфо</span>
+              </div>
+            </div>
+            <div class="fb">
+              <h4 class="fbt">ТАКОЯКИ</h4>
+              <p>Пулсиращи палачинкови топчета със сочно парче октопод вътре, полети със специален сос, японска майонеза и фини стърготини риба тон.</p>
+              <div class="fr">🐙 Любимо на всички</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t-etiquette" class="fpanel">
+      <div class="etgrid">
+        <div class="eitem eno">
+          <span class="eicon">❌</span>
+          <div>
+            <h4>БЕЗ БАКШИШИ</h4>
+            <p>В Токио няма култура на бакшиши. Ако оставите пари на масата, сервитьорът ще ви настигне на улицата, за да ви ги върне.</p>
+          </div>
+        </div>
+        <div class="eitem eyes">
+          <span class="eicon">🍜</span>
+          <div>
+            <h4>СЪРБАЙТЕ СМЕЛО</h4>
+            <p>Сърбането на нудли е комплимент за готвача. То вкарва въздух и охлажда ястието, засилвайки вкусовите усещания.</p>
+          </div>
+        </div>
+        <div class="eitem einf">
+          <span class="eicon">🥢</span>
+          <div>
+            <h4>КЛЕЧКИТЕ ЗА ХРАНА</h4>
+            <p>Никога не забивайте клечките вертикално в купата с ориз – този жест е част от традиционните погребални ритуали.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="guide" class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">Оцеляване в града</span>
+      <h2 class="sec-title">НАРЪЧНИК НА ТУРИСТА</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Практическа информация за транспорт, сезони, разплащания и бърз аудио речник за лесна комуникация.</p>
+    </div>
+
+    <h3 class="subh fi">Транспорт & Логистика</h3>
+    <div class="trgrid fi d1">
+      <div class="trcard">
+        <span class="tr-icon">🚇</span>
+        <h4 class="tr-title">Tokyo Metro</h4>
+        <p>Една от най-точните и развити подземни системи в света. Използвайте дигитална карта Suica или Pasmo за моментално таксуване през телефона.</p>
+      </div>
+      <div class="trcard">
+        <span class="tr-icon">🚄</span>
+        <h4 class="tr-title">Shinkansen</h4>
+        <p>Легендарните влакове-стрела, които ви свързват с останалата част от Япония със скорост над 320 км/ч. Безупречен комфорт.</p>
+      </div>
+    </div>
+
+    <div class="trainline">
+      <div class="trainhead"></div>
+    </div>
+
+    <h3 class="subh fi">Сезоните в Мегаполиса</h3>
+    <div class="sgrid fi d2">
+      <div class="scard spr">
+        <span class="s-icon">🌸</span>
+        <h4 class="s-name">Пролет</h4>
+        <div class="s-jp">春</div>
+        <p>Сезонът на Сакура (вишневия цвят). Целият град се оцветява в бледорозово и хората се събират на Ханами пикници.</p>
+      </div>
+      <div class="scard ssu">
+        <span class="s-icon">☀️</span>
+        <h4 class="s-name">Лято</h4>
+        <div class="s-jp">夏</div>
+        <p>Динамични летни фестивали (Matsuri), улична храна и зашеметяващи шоу програми с фойерверки край река Сумида.</p>
+      </div>
+      <div class="scard sau">
+        <span class="s-icon">🍁</span>
+        <h4 class="s-name">Есен</h4>
+        <div class="s-jp">秋</div>
+        <p>Сезонът на Момиджи (огнените есенни листа). Време за перфектни разходки из японските градини и планини.</p>
+      </div>
+      <div class="scard swi">
+        <span class="s-icon">❄️</span>
+        <h4 class="s-name">Зима</h4>
+        <div class="s-jp">冬</div>
+        <p>Чисто синьо небе, гледка към заснежената планина Фуджи и грандиозни неонови коледни илюминации.</p>
+      </div>
+    </div>
+
+    <h3 class="subh fi">Бърз аудио речник</h3>
+    <div class="dict fi d3">
+      <div class="dict-title">Кликнете върху бутона, за да чуете правилното произношение:</div>
+      
+      <div class="drow">
+        <button class="dbtn" onclick="speak('こんにちは')">🔊</button>
+        <div>
+          <span class="djp">こんにちは</span>
+          <span class="drm">Konnichiwa</span>
+        </div>
+        <div class="dbg">Здравейте / Добър ден</div>
+        <span class="dcat">Поздрав</span>
+      </div>
+
+      <div class="drow">
+        <button class="dbtn" onclick="speak('ありがとうございます')">🔊</button>
+        <div>
+          <span class="djp">ありがとうございます</span>
+          <span class="drm">Arigatou Gozaimasu</span>
+        </div>
+        <div class="dbg">Благодаря ви много</div>
+        <span class="dcat">Етикет</span>
+      </div>
+
+      <div class="drow">
+        <button class="dbtn" onclick="speak('すみません')">🔊</button>
+        <div>
+          <span class="djp">すみません</span>
+          <span class="drm">Sumimasen</span>
+        </div>
+        <div class="dbg">Извинете / Моля (при привличане на внимание)</div>
+        <span class="dcat">Важно</span>
+      </div>
+
+      <div class="drow">
+        <button class="dbtn" onclick="speak('これはいくらですか')">🔊</button>
+        <div>
+          <span class="djp">これはいくらですか</span>
+          <span class="drm">Kore wa ikura desu ka?</span>
+        </div>
+        <div class="dbg">Колко струва това?</div>
+        <span class="dcat">Пазаруване</span>
+      </div>
+    </div>
+
+    <h3 class="subh fi">Обмен на валута (Български лев ➔ Йена)</h3>
+    <div class="curr fi">
+      <div>
+        <span class="curr-lbl">ТЕКУЩ КУРС (ПРИБЛИЗИТЕЛЕН)</span>
+        <div class="curr-rate">1 BGN ≈ 85 JPY</div>
+      </div>
+      <div class="curr-inp">
+        <input type="number" id="bgn-val" value="10" oninput="calcCurr()">
+        <span class="curr-lbl" style="margin:0;">BGN</span>
+      </div>
+      <div class="curr-arrow">➔</div>
+      <div>
+        <span class="curr-lbl">РЕЗУЛТАТ</span>
+        <div class="curr-res" id="jpy-res">850 JPY</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="gems" class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">Извън утъпкания път</span>
+      <h2 class="sec-title">СКРИТИТЕ БИЖУТА</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Ако искате да избягате от масовия туризъм, ето няколко места, които разкриват истинската, алтернативна душа на града.</p>
+    </div>
+
+    <div class="ggrid">
+      <div class="gcard fi d1">
+        <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop" class="gimg" alt="Odaiba">
+        <div class="gcontent">
+          <h3 class="g-title">ODAIBA ISLAND</h3>
+          <div class="g-jp">お台場</div>
+          <p>Изкуствен остров в залива на Токио с футуристична архитектура, гигантски ходещ Gundam робот в реален размер и дигиталния музей на изкуствата teamLab.</p>
+        </div>
+      </div>
+
+      <div class="gcard fi d2">
+        <img src="https://images.unsplash.com/photo-15420518418c7-4737b70164f8?w=600&auto=format&fit=crop" class="gimg" alt="Shimokitazawa">
+        <div class="gcontent">
+          <h3 class="g-title">SHIMOKITAZAWA</h3>
+          <div class="g-jp">下北沢</div>
+          <p>Инди и хипстърският рай на града. Улици, изпълнени с изключителни винтидж магазини за дрехи, независими кафенета, малки театри и магазини за грамофонни плочи.</p>
+        </div>
+      </div>
+
+      <div class="gcard fi d3">
+        <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&auto=format&fit=crop" class="gimg" alt="Yanaka Ginza">
+        <div class="gcontent">
+          <h3 class="g-title">YANAKA GINZA</h3>
+          <div class="g-jp">谷中銀座</div>
+          <p>Един от малкото останали квартали, които са оцелели след Втората световна война. Усещане за атмосферата на "Shitamachi" (стария долен град) от миналия век.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <section id="contact" class="sec">
+    <div class="sec-hd fi">
+      <span class="eyebrow">Направете първата крачка</span>
+      <h2 class="sec-title">ПЛАНИРАЙ ПЪТУВАНЕ</h2>
+      <div class="divider"></div>
+      <p class="sec-desc">Изпратете ни вашите предпочитания и получете безплатен, автоматизиран примерен маршрут за приключението на живота ви.</p>
+    </div>
+
+    <div class="form-wrap fi">
+      <form id="tokyoForm" onsubmit="handleForm(event)">
+        <div class="fg">
+          <label class="flbl">Вашето име</label>
+          <input type="text" class="finp" required placeholder="Иван Иванов">
+        </div>
+        <div class="fg">
+          <label class="flbl">Електронна поща</label>
+          <input type="email" class="finp" required placeholder="ivan@example.com">
+        </div>
+        <div class="fg">
+          <label class="flbl">Кой стил ви привлича повече?</label>
+          <select class="fsel">
+            <option value="cyber">Киберпънк, технологии и аниме (Модерен Токио)</option>
+            <option value="trad">Храмове, чайна церемония и градини (Древен Токио)</option>
+            <option value="both">Пълен баланс между двата свята</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="flbl">Продължителност на престоя</label>
+          <div class="fradios">
+            <label class="frl"><input type="radio" name="days" value="3-5" checked> 3 - 5 дни</label>
+            <label class="frl"><input type="radio" name="days" value="7-10"> 7 - 10 дни</label>
+            <label class="frl"><input type="radio" name="days" value="14+"> Над 2 седмици</label>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="flbl">Специфични бележки или кулинарни цели</label>
+          <textarea class="ftxt" placeholder="Искам да пробвам най-добрия рамен..."></textarea>
+        </div>
+        <button type="submit" class="fsub">Генерирай приключение</button>
+      </form>
+
+      <div id="success">
+        <span class="suc-jp">成功</span>
+        <h3 class="sec-title" style="font-size:1.3rem; margin-bottom:.5rem; color:var(--cyan);">УСПЕШНО ИЗПРАЩАНЕ!</h3>
+        <p class="suc-msg">Вашият виртуален план се генерира. Проверете пощата си след няколко минути за подробен дигитален гайд.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="ft-logo">TOKYO</div>
+    <div class="ft-jp">東京 — Където бъдещето среща миналото</div>
+    <div class="ft-links">
+      <a href="#hero">Начало</a>
+      <a href="#cyber">Модерен свят</a>
+      <a href="#edo">Традиция</a>
+      <a href="#food">Кулинария</a>
+      <a href="#guide">Наръчник</a>
+    </div>
+    <p class="ft-copy">&copy; 2026 ТОКИО ПЪТЕВОДИТЕЛ. Всички права запазени.</p>
+  </footer>
+
+  <button id="btt" title="Нагоре">▲</button>
+
+  <script>
+    /* 1. SCROLL ACTIONS & FADE IN ANIMATIONS */
+    window.addEventListener('scroll', () => {
+      const prog = document.getElementById('prog');
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      prog.style.width = scrolled + '%';
+
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+
+      const btt = document.getElementById('btt');
+      if (window.scrollY > 400) btt.classList.add('vis');
+      else btt.classList.remove('vis');
+
+      triggerFadeIn();
+    });
+
+    function triggerFadeIn() {
+      const elements = document.querySelectorAll('.fi');
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        if (!(rect.bottom < 0 || rect.top - viewHeight >= -60)) {
+          el.classList.add('vis');
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.getElementById('hero-content').classList.add('vis');
+        triggerFadeIn();
+      }, 200);
+      
+      startClock();
+      spawnParticles();
+      spawnSakura();
+      calcCurr();
+    });
+
+    /* 2. TOKYO TIME ZONE CLOCK */
+    function startClock() {
+      setInterval(() => {
+        const options = { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        const formatter = new Intl.DateTimeFormat('bg-BG', options);
+        document.getElementById('time-string').innerText = formatter.format(new Date());
+      }, 1000);
+    }
+
+    /* 3. LIGHT/DARK THEME TOGGLE */
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      document.body.classList.toggle('light');
+    });
+
+    /* 4. MOBILE HAMBURGER MENU */
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('navlinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    /* 5. BACK TO TOP */
+    document.getElementById('btt').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* 6. GASTRONOMY TABS */
+    function switchTab(evt, tabId) {
+      document.querySelectorAll('.fpanel').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+      document.getElementById(tabId).classList.add('on');
+      evt.currentTarget.classList.add('on');
+      triggerFadeIn();
+    }
+
+    /* 7. FLIP CARDS INTERACTION */
+    document.querySelectorAll('.fc').forEach(card => {
+      card.addEventListener('click', function() { this.classList.toggle('fl'); });
+    });
+
+    /* 8. CURRENCY */
+    function calcCurr() {
+      const bgn = document.getElementById('bgn-val').value;
+      document.getElementById('jpy-res').innerText = (bgn * 85).toLocaleString() + ' JPY';
+    }
+
+    /* 9. NATIVE TEXT TO SPEECH (JAPANESE) */
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Браузърът ви не поддържа гласов синтез.');
+      }
+    }
+
+    /* 10. BACKGROUND CYBER PARTICLES */
+    function spawnParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 35; i++) {
+        const pt = document.createElement('div');
+        pt.className = 'pt';
+        const size = Math.random() * 3 + 1;
+        pt.style.width = size + 'px';
+        pt.style.height = size + 'px';
+        pt.style.left = Math.random() * 100 + '%';
+        pt.style.animationDuration = (Math.random() * 12 + 8) + 's';
+        pt.style.animationDelay = (Math.random() * -20) + 's';
+        pt.style.setProperty('--dx', ((Math.random() * 120) - 60) + 'px');
+        pt.style.background = Math.random() > 0.5 ? '#00e5ff' : '#ff0055';
+        container.appendChild(pt);
+      }
+    }
+
+    /* 11. FALLING SAKURA FLOWERS */
+    function spawnSakura() {
+      const container = document.getElementById('sakura');
+      const petals = ['🌸', '🍃'];
+      for (let i = 0; i < 20; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.innerText = petals[Math.floor(Math.random() * petals.length)];
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animationDuration = (Math.random() * 14 + 10) + 's';
+        petal.style.animationDelay = (Math.random() * -25) + 's';
+        petal.style.transform = `scale(${Math.random() * 0.6 + 0.6})`;
+        container.appendChild(petal);
+      }
+    }
+
+    /* 12. FORM SUBMISSION */
+    function handleForm(e) {
+      e.preventDefault();
+      document.getElementById('tokyoForm').style.display = 'none';
+      const successBlock = document.getElementById('success');
+      successBlock.style.display = 'block';
+      successBlock.classList.add('fi', 'vis');
+    }
+  </script>
+</body>
+</html>
